@@ -8,7 +8,6 @@ class GameBoard{
 public:
 	char board[8][8];
 	char curColor;
-	vector<char> space;
 
 	GameBoard(); // construtor (setup board)
 	void display();
@@ -27,8 +26,7 @@ public:
 	bool lookUpRight(int i, int j);	//checks diagonally up and right of space
 	bool lookDownLeft(int i, int j);	//checks diagonally down and left of space
 	bool lookDownRight(int i, int j);	//checks diagonally down and right of space
-
-	//void showNextPos();
+	void skip_turn();
 
 };
 
@@ -100,6 +98,17 @@ bool GameBoard :: move(char _column, int _row){
 	move(row, col);
 
 	return true;
+}
+
+/*This function checks if any moves are available
+ *and if none are available the turn is forfeited*/
+void GameBoard :: skip_turn()
+{
+	if(display_valid_moves()==false)
+	{
+		cout << "No valid moves available, your turn is forfeited.\n\n";
+		curColor = !curColor;
+	}
 }
 
 /*This function clears the previous possible moves so 
