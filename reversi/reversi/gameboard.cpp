@@ -283,13 +283,22 @@ void GameBoard :: undo(){
 
 /*This function checks if any moves are available
  *and if none are available the turn is forfeited*/
-void GameBoard :: skip_turn()
+bool GameBoard :: skip_turn()
 {
 	if(display_valid_moves()==false)
 	{
-		cout << "No valid moves available, your turn is forfeited.\n\n";
-		curColor = !curColor;
+		//cout << "No valid moves available, your turn is forfeited.\n\n";
+		if(curColor=='@') curColor='O';
+		else curColor='@';
+		moves.clear();
+		clear_possible_moves();	
+		return false;
 	}
+	else{
+		moves.clear();
+		clear_possible_moves();	
+		return true;
+	}	
 }
 
 /*This function clears the previous possible moves so 
@@ -529,6 +538,7 @@ bool GameBoard :: lookDownRight(int i, int j)
  *each space examined as a valid move or not*/
 bool GameBoard :: display_valid_moves(){
 	bool up,down,left,right,upleft,upright,downleft,downright,valid;
+	valid = false;
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){			
 			if(board[i][j] == curColor)		//check all spaces for current player
@@ -546,11 +556,11 @@ bool GameBoard :: display_valid_moves(){
 			}
 		}
 	}
-	cout << "Possible moves: \n";
+	/*cout << "Possible moves: \n";
 	for(int k = 0; k < moves.size(); k+=2)
 	{
 		cout << moves[k] << " " << moves[k+1] << ", \n";
-	}
+	}*/
 	return valid;
 }
 
@@ -598,9 +608,9 @@ int GameBoard :: count_tiles()
 	int whitetiles = 0;
 	int blacktiles = 0;
 	int fulltiles = 0;
-	for(int i = 0; i <=8; i++)
+	for(int i = 0; i <8; i++)
 	{
-		for(int j = 0; j <=8; j++)
+		for(int j = 0; j <8; j++)
 		{
 			if(board[i][j]=='O')
 				whitetiles++;
@@ -616,15 +626,27 @@ int GameBoard :: count_tiles()
 /*This function uses the count from count_tiles and the
  *return value from display_valid_moves() to determine
  *if the game is over*/
-void GameBoard :: game_over(){
-	if(!display_valid_moves() || count_tiles() == 64)//if no moves or board is full
-		cout << "game over\n\n";					 //end game
+bool GameBoard :: game_over(){
+	if(!display_valid_moves() || count_tiles() == 64){//if no moves or board is full
+		if(curColor=='@') curColor='O';
+		else curColor='@';
+		
+		if(!display_valid_moves())
+			return true;					 //end game
+			
+		if(curColor=='@') curColor='O';
+		else curColor='@';	
+	}
+	moves.clear();
+	clear_possible_moves();
+	return false;
 }
 
-void GameBoard :: winner(){
+vector<string> GameBoard :: winner(){
 	int countblack = 0;
 	int countwhite = 0;
-
+	stringstream ss;
+	vector<string> output;
 	for(int i=0; i<8; i++)
 	{
 		for(short j=0; j<8; j++)
@@ -637,13 +659,14 @@ void GameBoard :: winner(){
 		}
 	}
 
-	cout<<"Black: "<<countblack<<"\n";
-	cout<<"White: "<<countwhite<<"\n";
+	ss<<"Black: "<<countblack<<"\n";
+	ss<<"White: "<<countwhite<<"\n";
 
 	if(countblack < countwhite){
-		cout<<"WHITE WIN!\n";
+		ss<<"WHITE WIN!\n";
 	}else if(countblack > countwhite){
-		cout<<"BLACK WIN!\n";
-	}else cout<<"DRAW!\n";
-
+		ss<<"BLACK WIN!\n";
+	}else ss<<"DRAW!\n";
+	output.push_back(ss.str());
+	return output;
 }

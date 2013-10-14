@@ -83,10 +83,12 @@ void* handleConnection(int *socket_fd){
 	bool check = true;
 	bool display = false;
 	bool condition = false;
+	bool player_skip = false;
 	int count = 0;
 	vector<int> possible_moves;
 	vector<int> move;
 	string playerColor;
+	string request;
 	char str [5];
 	string ai_move = "";
 	GameBoard board;
@@ -95,9 +97,14 @@ void* handleConnection(int *socket_fd){
 	slave.cwrite("\nWELCOME \n");
 	while(check){
 		string word;
-		string request = slave.cread();
-		istringstream oss(request);
-		oss >> word;
+		if(!board.skip_turn()){
+			player_skip = true;
+		}
+		else{
+			request = slave.cread();
+			istringstream oss(request);
+			oss >> word;
+		}	
 		if(word == "WHITE" && !condition){
 			count++;
 			playerColor = "WHITE";
@@ -126,47 +133,85 @@ void* handleConnection(int *socket_fd){
 		else if(word.size() == 2 && condition){
 			char c = word[1];
 			int row = c - 48;
-			if(!board.valid_move(word[0], row))
+			if(!board.valid_move(word[0], row) && !player_skip)
 				slave.cwrite("ILLEGAL");
+			else if(player_skip){
+				slave.cwrite("You have no moves, it will be the AI's turn now ");
+				possible_moves = board.getMoves();
+				if(possible_moves.size()==0){
+					slave.cwrite("AI has no moves, the game will end");
+					
+				}
+				else{
+					move = ai.MakeMove(possible_moves);
+					board.move(move[1], move[0]);
+					char col;
+					if(move[0] == 0)
+						col = 'a';
+					else if(move[0] == 1)
+						col = 'b';
+					else if(move[0] == 2)
+						col = 'c';
+					else if(move[0] == 3)
+						col = 'd';
+					else if(move[0] == 4)
+						col = 'e';
+					else if(move[0] == 5)
+						col = 'f';
+					else if(move[0] == 6)
+						col = 'g';
+					else if(move[0] == 7)
+						col = 'h';
+					ai_move+= col;
+					sprintf(str, "%d" ,move[1]+1);
+					ai_move+= str;
+					slave.cwrite(ai_move);
+					ai_move = "";
+				}
+				player_skip = false;
+			}	
 			else{
 				board.move(word[0], row);
 				slave.cwrite("OK \n");
+				possible_moves = board.getMoves();
+				if(possible_moves.size()==0){
+					slave.cwrite("AI has no moves, it will be your turn now ");
+					board.skip_turn();
+				}
+				else{
+					move = ai.MakeMove(possible_moves);
+					board.move(move[1], move[0]);
+					char col;
+					if(move[0] == 0)
+						col = 'a';
+					else if(move[0] == 1)
+						col = 'b';
+					else if(move[0] == 2)
+						col = 'c';
+					else if(move[0] == 3)
+						col = 'd';
+					else if(move[0] == 4)
+						col = 'e';
+					else if(move[0] == 5)
+						col = 'f';
+					else if(move[0] == 6)
+						col = 'g';
+					else if(move[0] == 7)
+						col = 'h';
+					ai_move+= col;
+					sprintf(str, "%d" ,move[1]+1);
+					ai_move+= str;
+					slave.cwrite(ai_move);
+					ai_move = "";
+				}	
 			}
-			possible_moves = board.getMoves();
-			move = ai.MakeMove(possible_moves);
-			board.move(move[1], move[0]);
-			char col;
-			if(move[0] == 0)
-				col = 'a';
-			else if(move[0] == 1)
-				col = 'b';
-			else if(move[0] == 2)
-				col = 'c';
-			else if(move[0] == 3)
-				col = 'd';
-			else if(move[0] == 4)
-				col = 'e';
-			else if(move[0] == 5)
-				col = 'f';
-			else if(move[0] == 6)
-				col = 'g';
-			else if(move[0] == 7)
-			col = 'h';
-			ai_move+= col;
-			sprintf(str, "%d" ,move[1]+1);
-			ai_move+= str;
-			slave.cwrite(ai_move);
 		}
 		else if(word == "EXIT"){
 			check = false;
 		}
-		if(display){
-			output = board.display();
-			for(int i = 0; i < output.size() ; i++)
-			slave.cwrite(output[i]);
-		}
 		if(count == 3){
 			condition = true;
+			count = 0;
 			if(playerColor == "BLACK"){
 				possible_moves = board.getMoves();
 				move = ai.MakeMove(possible_moves);
@@ -193,13 +238,26 @@ void* handleConnection(int *socket_fd){
 				sprintf(str, "%d" , num);
 				ai_move+= str;
 				slave.cwrite(ai_move);
+				ai_move = "";
 			}
-			count = 0;
+		}
+		if(display){
+			output = board.display();
+			for(int i = 0; i < output.size() ; i++)
+			slave.cwrite(output[i]);
+		}
+		if(board.game_over()){
+			cout<<"check";
+			vector<string> winner_statement;
+			winner_statement = board.winner();
+			for(int i = 0; i < winner_statement.size() ; i++)
+				slave.cwrite(winner_statement[i]);
+			check = false;
 		}
 	}
 	
 }
 
 int main(){
-	GameServer channel(5000, &handleConnection);
+	GameServer channel(5001, &handleConnection);
 }

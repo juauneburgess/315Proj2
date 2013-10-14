@@ -20,7 +20,7 @@ public:
 	bool move(int row, int column);
 	bool valid_move(char _column, int row);				//returns 1 if move is legal
 	bool display_valid_moves();		//displays all legal moves
-	void game_over();				//checks termination conditions
+	bool game_over();				//checks termination conditions
 	int count_tiles();				//counts white and black tiles and returns total tiles used
 	void clear_possible_moves();	//clears last plays possible moves
 	bool lookUp(int i, int j);		//checks  above space
@@ -31,7 +31,7 @@ public:
 	bool lookUpRight(int i, int j);	//checks diagonally up and right of space
 	bool lookDownLeft(int i, int j);	//checks diagonally down and left of space
 	bool lookDownRight(int i, int j);	//checks diagonally down and right of space
-	void skip_turn();
+	bool skip_turn();
 	void flipColor(int row, int column);
 	vector<int> getMoves();
 
@@ -40,6 +40,6 @@ public:
 	void undo(); // can only undo 1 level
 	
 	GameBoard& getCurrBoard();
-	void winner();
+	vector<string> winner();
 
 };
