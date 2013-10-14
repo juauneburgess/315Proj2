@@ -48,21 +48,28 @@ vector<int> GameBoard :: getMoves()
 		return moves;
 }
 
-void GameBoard :: display(){
-	cout<<"  _ _ _ _ _ _ _ _ \n";
+vector<string> GameBoard :: display(){//*********
+	display_valid_moves();
+	stringstream ss;
+	vector<string> output;
+	ss << "\n\nCurrent player is '" << curColor << "'\n\n"; 
+	ss<<"  _ _ _ _ _ _ _ _ \n";
 	for(int i=0; i<8 ; i++){
-		cout<<i+1;
+		ss<<i+1;
 		for (int j=0; j<8; j++){
 			if(j==7){
-				cout<<'|'<<board[i][j]<<'|';
-			}else cout<<'|'<<board[i][j];
+				ss<<'|'<<board[i][j]<<'|';
+			}else ss<<'|'<<board[i][j];
 		}
-		cout<<endl;
+		ss<<endl;
 	}
-	cout<<"  a b c d e f g h\n";
-	display_valid_moves();
-	cout<<"Next turn: "<< curColor <<endl;
+	moves.clear();
+	clear_possible_moves();	
+	output.push_back(ss.str());
+	output.push_back("  a b c d e f g h\n\n");	
+	return output;
 }
+
 bool GameBoard :: move(int row, int column){
 	//if(move is valid)
 	copyBoard(board, undoboard);
@@ -79,7 +86,6 @@ bool GameBoard :: move(int row, int column){
 
 		//copyBoard(board, undoboard);
 
-		display();
 	}else{
 		board[row][column] = '@';
 		flipColor(row, column);
@@ -92,13 +98,14 @@ bool GameBoard :: move(int row, int column){
 		//undoboards.board.push(getCurrBoard());
 
 		//copyBoard(board, undoboard);
-		display();
 	}
+	moves.clear();
+	clear_possible_moves();	
 	return true;
 }
 
 bool GameBoard :: move(char _column, int _row){
-
+	display_valid_moves();
 	int row = _row - 1;
 	int col;
 	if(_column == 'a')
@@ -298,7 +305,6 @@ void GameBoard :: clear_possible_moves()
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookUp(int i, int j)
 {
-	bool upmove;
 	if(board[i-1][j]==curColor||board[i-1][j]=='_'||board[i-1][j]=='*')
 	{									//if space directly adjacent is the 
 		return false;						//current player, a blank space or
@@ -323,7 +329,6 @@ bool GameBoard :: lookUp(int i, int j)
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookDown(int i, int j)
 {
-	bool downmove;
 	if(board[i+1][j]==curColor||board[i+1][j]=='_'||board[i+1][j]=='*')
 	{
 		return false;
@@ -348,7 +353,6 @@ bool GameBoard :: lookDown(int i, int j)
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookLeft(int i, int j)
 {
-	bool leftmove;
 	if(board[i][j-1]==curColor||board[i][j-1]=='_'||board[i][j-1]=='*')
 	{
 		return false;
@@ -373,7 +377,6 @@ bool GameBoard :: lookLeft(int i, int j)
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookRight(int i, int j)
 {
-	bool rightmove;
 	if(board[i][j+1]==curColor||board[i][j+1]=='_'||board[i][j+1]=='*')
 	{
 		return false;
@@ -398,7 +401,6 @@ bool GameBoard :: lookRight(int i, int j)
  *of current space until it finds the current player or '_'*/
 bool GameBoard :: lookUpLeft(int i, int j)
 {
-	bool upleftmove;
 	if(board[i-1][j-1]==curColor||board[i-1][j-1]=='_'||board[i-1][j-1]=='*')
 	{
 		return false;
@@ -429,7 +431,6 @@ bool GameBoard :: lookUpLeft(int i, int j)
  *of current space until it finds the current player or '_'*/
 bool GameBoard :: lookUpRight(int i, int j)
 {
-	bool uprightmove;
 	if(board[i-1][j+1]==curColor||board[i-1][j+1]=='_'||board[i-1][j+1]=='*')
 	{
 		return false;
@@ -460,7 +461,6 @@ bool GameBoard :: lookUpRight(int i, int j)
  *of current space until it finds the current player or '_'*/
 bool GameBoard :: lookDownLeft(int i, int j)
 {
-	bool downleftmove;
 	if(board[i+1][j-1]==curColor||board[i+1][j-1]=='_'||board[i+1][j-1]=='*')
 	{
 		return false;
@@ -544,8 +544,6 @@ bool GameBoard :: display_valid_moves(){
 	{
 		cout << moves[k] << " " << moves[k+1] << ", \n";
 	}
-	moves.clear();
-	clear_possible_moves();
 	return valid;
 }
 
@@ -553,11 +551,33 @@ bool GameBoard :: display_valid_moves(){
  *as a marker for where a valid move is located and if a 
  *player tries to make a move to a space that is not marked
  *by a '*' the move is determined illegal*/
-bool GameBoard :: valid_move(int column, int row){
-	if(board[column][row] == '*')
+bool GameBoard :: valid_move(char _column, int _row){
+	display_valid_moves();
+	int row = _row - 1;
+	int col = 0;
+	if(_column == 'a')
+		col = 0;
+	if(_column == 'b')
+		col = 1;
+	if(_column == 'c')
+		col = 2;
+	if(_column == 'd')
+		col = 3;
+	if(_column == 'e')
+		col = 4;
+	if(_column == 'f')
+		col = 5;
+	if(_column == 'g')
+		col = 6;
+	if(_column == 'h')
+		col = 7;
+	cout<<board[col][row];
+	if(board[col][row] == '*'){
 		return true;
+	}	
 	else{
-		cout << "Illegal move, try again.\n";
+	moves.clear();
+		clear_possible_moves();
 		return false;
 	}
 }

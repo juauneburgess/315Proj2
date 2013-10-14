@@ -1,20 +1,4 @@
 
-/*#include <stdlib.h>
-#include <stdio.h>
-#include <cassert>
-#include <string>
-#include <string.h>
-#include <strings.h>
-#include <iostream>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <errno.h>*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,6 +11,7 @@
 #include <arpa/inet.h>
 
 #include "game_server.h"
+#include "gameboard.h"
 
 void GameServer::error(string s){
 	cout<<s<<"\n";
@@ -58,6 +43,7 @@ GameServer::GameServer(const unsigned short _port_no, void * (*connection_handle
 		else{
 			connection_handler(&new_fd);
 			close(new_fd);
+			exit(0);
 		}	
 	}
 }
@@ -94,6 +80,9 @@ int GameServer::cwrite(string _msg) {
 void* handleConnection(int *socket_fd){
 	GameServer slave(*socket_fd);
 	bool check = true;
+	bool display = false;
+	GameBoard board;
+	vector<string> output;
 	slave.cwrite("\nWELCOME \n");
 	while(check){
 		string word;
@@ -113,21 +102,34 @@ void* handleConnection(int *socket_fd){
 			slave.cwrite("OK \n");
 		}
 		else if(word == "DISPLAY"){
-			//use display game mechanics
+			if(display)
+				display = false;
+			else
+				display = true;
 			slave.cwrite("OK \n");
 		}
 		else if(word.size() == 2){
-			//use move game mechanics
-			slave.cwrite("OK \n");
+			char c = word[1];
+			int row = c - 48;
+			if(!board.valid_move(word[0], row))
+				slave.cwrite("ILLEGAL");
+			else{
+				board.move(word[0], row);
+				slave.cwrite("OK \n");
+			}	
 		}
 		else if(word == "EXIT"){
 			check = false;
 		}
+		if(display){
+			output = board.display();
+			for(int i = 0; i < output.size() ; i++)
+			slave.cwrite(output[i]);
+		}	
 	}
 	
 }
 
 int main(){
-	cout<<"Test";
-	GameServer channel(5002, &handleConnection);
+	GameServer channel(5001, &handleConnection);
 }

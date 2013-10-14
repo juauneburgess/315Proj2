@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <sstream>
+#include <string>
 
 using namespace std;
 class GameBoard{
@@ -13,10 +15,10 @@ public:
 	vector<int> moves;
 
 	GameBoard(); // construtor (setup board)
-	void display();
+	vector<string> display();
 	bool move(char column, int row);
 	bool move(int row, int column);
-	bool valid_move(int column, int row);				//returns 1 if move is legal
+	bool valid_move(char _column, int row);				//returns 1 if move is legal
 	bool display_valid_moves();		//displays all legal moves
 	void game_over();				//checks termination conditions
 	int count_tiles();				//counts white and black tiles and returns total tiles used
