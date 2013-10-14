@@ -1,6 +1,7 @@
 #ifndef _game_server_h_                   // include file only once
 #define _game_server_h_  
 
+#include <stdlib.h>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -35,7 +36,7 @@ public:
 	int cwrite(string _msg);
 	//write to socket
 	
-	void* handleConnection(int *socket_fd);
+	//void* handleConnection(int *socket_fd);
 };
 
 #endif

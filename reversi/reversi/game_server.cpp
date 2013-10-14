@@ -12,6 +12,7 @@
 
 #include "game_server.h"
 #include "gameboard.h"
+#include "ai_engine.h"
 
 void GameServer::error(string s){
 	cout<<s<<"\n";
@@ -81,7 +82,15 @@ void* handleConnection(int *socket_fd){
 	GameServer slave(*socket_fd);
 	bool check = true;
 	bool display = false;
+	bool condition = false;
+	int count = 0;
+	vector<int> possible_moves;
+	vector<int> move;
+	string playerColor;
+	char str [5];
+	string ai_move = "";
 	GameBoard board;
+	AIEngine ai;
 	vector<string> output;
 	slave.cwrite("\nWELCOME \n");
 	while(check){
@@ -89,16 +98,22 @@ void* handleConnection(int *socket_fd){
 		string request = slave.cread();
 		istringstream oss(request);
 		oss >> word;
-		if(word == "WHITE" || word == "BLACK"){
-			//use color game mechanics
+		if(word == "WHITE" && !condition){
+			count++;
+			playerColor = "WHITE";
 			slave.cwrite("OK \n");
 		}
-		else if(word == "HUMAN-AI"){
-			//use game mechanics
+		if(word == "BLACK" && !condition){
+			count++;
+			playerColor = "BLACK";
 			slave.cwrite("OK \n");
 		}
-		else if(word == "EASY" || word == "MEDIUM" || word == "HARD"){
-			//use difficulty game mechanics
+		else if(word == "HUMAN-AI"&& !condition){
+			count++;
+			slave.cwrite("OK \n");
+		}
+		else if(word == "EASY" || word == "MEDIUM" || word == "HARD" && !condition){
+			count++;
 			slave.cwrite("OK \n");
 		}
 		else if(word == "DISPLAY"){
@@ -108,7 +123,7 @@ void* handleConnection(int *socket_fd){
 				display = true;
 			slave.cwrite("OK \n");
 		}
-		else if(word.size() == 2){
+		else if(word.size() == 2 && condition){
 			char c = word[1];
 			int row = c - 48;
 			if(!board.valid_move(word[0], row))
@@ -116,7 +131,31 @@ void* handleConnection(int *socket_fd){
 			else{
 				board.move(word[0], row);
 				slave.cwrite("OK \n");
-			}	
+			}
+			possible_moves = board.getMoves();
+			move = ai.MakeMove(possible_moves);
+			board.move(move[1], move[0]);
+			char col;
+			if(move[0] == 0)
+				col = 'a';
+			else if(move[0] == 1)
+				col = 'b';
+			else if(move[0] == 2)
+				col = 'c';
+			else if(move[0] == 3)
+				col = 'd';
+			else if(move[0] == 4)
+				col = 'e';
+			else if(move[0] == 5)
+				col = 'f';
+			else if(move[0] == 6)
+				col = 'g';
+			else if(move[0] == 7)
+			col = 'h';
+			ai_move+= col;
+			sprintf(str, "%d" ,move[1]+1);
+			ai_move+= str;
+			slave.cwrite(ai_move);
 		}
 		else if(word == "EXIT"){
 			check = false;
@@ -125,11 +164,42 @@ void* handleConnection(int *socket_fd){
 			output = board.display();
 			for(int i = 0; i < output.size() ; i++)
 			slave.cwrite(output[i]);
-		}	
+		}
+		if(count == 3){
+			condition = true;
+			if(playerColor == "BLACK"){
+				possible_moves = board.getMoves();
+				move = ai.MakeMove(possible_moves);
+				board.move(move[1], move[0]);
+				char col;
+				if(move[0] == 0)
+					col = 'a';
+				else if(move[0] == 1)
+					col = 'b';
+				else if(move[0] == 2)
+					col = 'c';
+				else if(move[0] == 3)
+					col = 'd';
+				else if(move[0] == 4)
+					col = 'e';
+				else if(move[0] == 5)
+					col = 'f';
+				else if(move[0] == 6)
+					col = 'g';
+				else if(move[0] == 7)
+					col = 'h';
+				ai_move+= col;
+				int num = move[1]+1;
+				sprintf(str, "%d" , num);
+				ai_move+= str;
+				slave.cwrite(ai_move);
+			}
+			count = 0;
+		}
 	}
 	
 }
 
 int main(){
-	GameServer channel(5001, &handleConnection);
+	GameServer channel(5000, &handleConnection);
 }

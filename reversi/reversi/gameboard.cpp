@@ -45,7 +45,14 @@ GameBoard& GameBoard :: getCurrBoard(){
 
 vector<int> GameBoard :: getMoves()
 {
-		return moves;
+	display_valid_moves();
+	vector<int> possible_moves;
+	for(int i = 0; i < moves.size(); i++){
+		possible_moves.push_back(moves[i]);
+	}
+	moves.clear();
+	clear_possible_moves();
+	return possible_moves;
 }
 
 vector<string> GameBoard :: display(){//*********
