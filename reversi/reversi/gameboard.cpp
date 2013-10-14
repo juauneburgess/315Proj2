@@ -309,7 +309,7 @@ bool GameBoard :: lookUp(int i, int j)
 	{									//if space directly adjacent is the 
 		return false;						//current player, a blank space or
 	}									//already a possible move, exit
-	for(i-=1; i >= 0; i--)				
+	for(i-=1; i >= 1; i--)				
 	{									//if current player is found in this	
 		if(board[i][j]==curColor)		//line, exit
 		{
@@ -333,7 +333,7 @@ bool GameBoard :: lookDown(int i, int j)
 	{
 		return false;
 	}
-	for(i+=1; i <= 8; i++)
+	for(i+=1; i <= 7; i++)
 	{
 		if(board[i][j]==curColor)
 		{
@@ -357,7 +357,7 @@ bool GameBoard :: lookLeft(int i, int j)
 	{
 		return false;
 	}
-	for(j-=1; j >= 0; j--)
+	for(j-=1; j >= 1; j--)
 	{
 		if(board[i][j]==curColor)
 		{
@@ -381,7 +381,7 @@ bool GameBoard :: lookRight(int i, int j)
 	{
 		return false;
 	}
-	for(j+=1; j <= 8; j++)
+	for(j+=1; j <= 7; j++)
 	{
 		if(board[i][j]==curColor)
 		{
@@ -405,9 +405,9 @@ bool GameBoard :: lookUpLeft(int i, int j)
 	{
 		return false;
 	}
-	for(i -= 1; i >= 0; i--)
+	for(i -= 1; i >= 1; i--)
 	{
-		for(j -= 1; j >= 0; j--)
+		for(j -= 1; j >= 1; j--)
 		{
 			if((i-=1) && (j-=1))
 			{
@@ -435,9 +435,9 @@ bool GameBoard :: lookUpRight(int i, int j)
 	{
 		return false;
 	}
-	for(i -= 1; i >= 0; i--)
+	for(i -= 1; i >= 1; i--)
 	{
-		for(j += 1; j <= 8; j++)
+		for(j += 1; j <= 7; j++)
 		{
 			if((i-=1) && (j+=1))
 			{
@@ -465,9 +465,9 @@ bool GameBoard :: lookDownLeft(int i, int j)
 	{
 		return false;
 	}
-	for(i += 1; i <= 8; i++)
+	for(i += 1; i <= 7; i++)
 	{
-		for(j -= 1; j >= 0; j--)
+		for(j -= 1; j >= 1; j--)
 		{
 			if((i+=1) && (j-=1))
 			{
@@ -495,9 +495,9 @@ bool GameBoard :: lookDownRight(int i, int j)
 	{
 		return false;
 	}
-	for(i += 1; i <= 8; i++)
+	for(i += 1; i <= 7; i++)
 	{
-		for(j += 1; j <= 8; j++)
+		for(j += 1; j <= 7; j++)
 		{
 			if((i+=1) && (j+=1))
 			{
@@ -572,11 +572,11 @@ bool GameBoard :: valid_move(char _column, int _row){
 	if(_column == 'h')
 		col = 7;
 	cout<<board[col][row];
-	if(board[col][row] == '*'){
+	if(board[row][col] == '*'){
 		return true;
 	}	
 	else{
-	moves.clear();
+		moves.clear();
 		clear_possible_moves();
 		return false;
 	}
