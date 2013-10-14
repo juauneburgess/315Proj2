@@ -259,6 +259,332 @@ void GameBoard :: undo(){
 	display();
 }
 
+/*This function checks if any moves are available
+ *and if none are available the turn is forfeited*/
+void GameBoard :: skip_turn()
+{
+	if(display_valid_moves()==false)
+	{
+		cout << "No valid moves available, your turn is forfeited.\n\n";
+		curColor = !curColor;
+	}
+}
+
+/*This function clears the previous possible moves so 
+ *the next possible moves can be displayed correctly*/
+void GameBoard :: clear_possible_moves()
+{
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			if(board[i][j]=='*')	//find all '*' and replace with '_'
+			{
+				board[i][j] = '_';
+			}
+		}
+	}
+}
+
+/*This function checks all spaces above the current 
+ *space until it finds the current player or '_'*/
+bool GameBoard :: lookUp(int i, int j)
+{
+	bool upmove;
+	if(board[i-1][j]==curColor||board[i-1][j]=='_'||board[i-1][j]=='*')
+	{									//if space directly adjacent is the 
+		return false;						//current player, a blank space or
+	}									//already a possible move, exit
+	for(i-=1; i >= 0; i--)				
+	{									//if current player is found in this	
+		if(board[i][j]==curColor)		//line, exit
+		{
+			return false;
+		}
+		else if (board[i][j]=='_')		//if line is all opposing players 
+		{								//followed by a '_' display possible				
+			board[i][j] = '*';			//move
+			moves.push_back(i-1);
+			moves.push_back(j-1);
+			return true;
+		}
+	}
+}
+
+/*This function checks all spaces below the current 
+ *space until it finds the current player or '_'*/
+bool GameBoard :: lookDown(int i, int j)
+{
+	bool downmove;
+	if(board[i+1][j]==curColor||board[i+1][j]=='_'||board[i+1][j]=='*')
+	{
+		return false;
+	}
+	for(i+=1; i <= 8; i++)
+	{
+		if(board[i][j]==curColor)
+		{
+			return false;
+		}
+		else if (board[i][j]=='_')
+		{
+			board[i][j] = '*';
+			moves.push_back(i);
+			moves.push_back(j);
+			return true;
+		}
+	}
+}
+
+/*This function checks all spaces to the left of current 
+ *space until it finds the current player or '_'*/
+bool GameBoard :: lookLeft(int i, int j)
+{
+	bool leftmove;
+	if(board[i][j-1]==curColor||board[i][j-1]=='_'||board[i][j-1]=='*')
+	{
+		return false;
+	}
+	for(j-=1; j >= 0; j--)
+	{
+		if(board[i][j]==curColor)
+		{
+			return false;
+		}
+		else if (board[i][j]=='_')
+		{
+			board[i][j] = '*';
+			moves.push_back(i);
+			moves.push_back(j);
+			return true;
+		}
+	}
+}
+
+/*This function checks all spaces to the right of current 
+ *space until it finds the current player or '_'*/
+bool GameBoard :: lookRight(int i, int j)
+{
+	bool rightmove;
+	if(board[i][j+1]==curColor||board[i][j+1]=='_'||board[i][j+1]=='*')
+	{
+		return false;
+	}
+	for(j+=1; j <= 8; j++)
+	{
+		if(board[i][j]==curColor)
+		{
+			return false;
+		}
+		else if (board[i][j]=='_')
+		{
+			board[i][j] = '*';
+			moves.push_back(i);
+			moves.push_back(j);
+			return true;
+		}
+	}
+}
+
+/*This function checks all spaces diagonally up and left 
+ *of current space until it finds the current player or '_'*/
+bool GameBoard :: lookUpLeft(int i, int j)
+{
+	bool upleftmove;
+	if(board[i-1][j-1]==curColor||board[i-1][j-1]=='_'||board[i-1][j-1]=='*')
+	{
+		return false;
+	}
+	for(i -= 1; i >= 0; i--)
+	{
+		for(j -= 1; j >= 0; j--)
+		{
+			if((i-=1) && (j-=1))
+			{
+				if(board[i][j]==curColor)
+				{
+					return false;
+				}
+				else if (board[i][j]=='_')
+				{
+					board[i][j] = '*';
+					moves.push_back(i);
+					moves.push_back(j);
+					return true;
+				}
+			}
+		}
+	}
+}
+
+/*This function checks all spaces diagonally up and right 
+ *of current space until it finds the current player or '_'*/
+bool GameBoard :: lookUpRight(int i, int j)
+{
+	bool uprightmove;
+	if(board[i-1][j+1]==curColor||board[i-1][j+1]=='_'||board[i-1][j+1]=='*')
+	{
+		return false;
+	}
+	for(i -= 1; i >= 0; i--)
+	{
+		for(j += 1; j <= 8; j++)
+		{
+			if((i-=1) && (j+=1))
+			{
+				if(board[i][j]==curColor)
+				{
+					return false;
+				}
+				else if (board[i][j]=='_')
+				{
+					board[i][j] = '*';
+					moves.push_back(i);
+					moves.push_back(j);
+					return true;
+				}
+			}
+		}
+	}
+}
+
+/*This function checks all spaces diagonally down and left 
+ *of current space until it finds the current player or '_'*/
+bool GameBoard :: lookDownLeft(int i, int j)
+{
+	bool downleftmove;
+	if(board[i+1][j-1]==curColor||board[i+1][j-1]=='_'||board[i+1][j-1]=='*')
+	{
+		return false;
+	}
+	for(i += 1; i <= 8; i++)
+	{
+		for(j -= 1; j >= 0; j--)
+		{
+			if((i+=1) && (j-=1))
+			{
+				if(board[i][j]==curColor)
+				{
+					return false;
+				}
+				else if (board[i][j]=='_')
+				{
+					board[i][j] = '*';
+					moves.push_back(i);
+					moves.push_back(j);
+					return true;
+				}
+			}
+		}
+	}
+}
+
+/*This function checks all spaces diagonally down and right 
+ *of current space until it finds the current player or '_'*/
+bool GameBoard :: lookDownRight(int i, int j)
+{
+	if(board[i+1][j+1]==curColor||board[i+1][j+1]=='_'||board[i+1][j+1]=='*')
+	{
+		return false;
+	}
+	for(i += 1; i <= 8; i++)
+	{
+		for(j += 1; j <= 8; j++)
+		{
+			if((i+=1) && (j+=1))
+			{
+				if(board[i][j]==curColor)
+				{
+					return false;
+				}
+				else if (board[i][j]=='_')
+				{
+					board[i][j] = '*';
+					moves.push_back(i);
+					moves.push_back(j);
+					return true;
+				}
+			}
+		}
+	}
+}
+
+/*This function checks in all 8 directions from every
+ *space occupied by the current player and determines
+ *each space examined as a valid move or not*/
+bool GameBoard :: display_valid_moves(){
+	bool up,down,left,right,upleft,upright,downleft,downright,valid;
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j++){			
+			if(board[i][j] == curColor)		//check all spaces for current player
+			{
+				up = lookUp(i,j);
+				down = lookDown(i,j);
+				left = lookLeft(i,j);
+				right = lookRight(i,j);
+				upleft = lookUpLeft(i,j);
+				upright = lookUpRight(i,j);
+				downleft = lookDownLeft(i,j);
+				downright = lookDownRight(i,j);
+				if(up||down||right||left||upleft||upright||downleft||downright)
+					valid = true;
+			}
+		}
+	}
+	cout << "Possible moves: \n";
+	for(int k = 0; k < moves.size(); k+=2)
+	{
+		cout << moves[k] << " " << moves[k+1] << ", \n";
+	}
+	moves.clear();
+	return valid;
+}
+
+/*This function uses the '*' placed by display_valid_moves()
+ *as a marker for where a valid move is located and if a 
+ *player tries to make a move to a space that is not marked
+ *by a '*' the move is determined illegal*/
+bool GameBoard :: valid_move(int column, int row){
+	if(board[row][column] == '*')
+		return true;
+	else{
+		cout << "Illegal move, try again.\n";
+		return false;
+	}
+}
+
+/*This function goes through every tile on the board
+ *and determines if it is white or black and keeps 
+ *a tally of each color for scoring purposes. It also
+ *adds up these scores to determine if the board is full*/
+int GameBoard :: count_tiles()
+{
+	int whitetiles = 0;
+	int blacktiles = 0;
+	int fulltiles = 0;
+	for(int i = 0; i <=8; i++)
+	{
+		for(int j = 0; j <=8; j++)
+		{
+			if(board[i][j]=='O')
+				whitetiles++;
+			if(board[i][j]=='@')
+				blacktiles++;
+		}
+	}
+	cout << "\n\nWhite: " << whitetiles << "	Black: " << blacktiles << "\n\n";
+	fulltiles = whitetiles + blacktiles;
+	return fulltiles;
+}
+
+/*This function uses the count from count_tiles and the
+ *return value from display_valid_moves() to determine
+ *if the game is over*/
+void GameBoard :: game_over(){
+	if(!display_valid_moves() || count_tiles() == 64)//if no moves or board is full
+		cout << "game over\n\n";					 //end game
+}
+
 void GameBoard :: winner(){
 	int countblack = 0;
 	int countwhite = 0;
