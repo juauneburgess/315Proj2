@@ -4,15 +4,21 @@ using namespace std;
 
 int main(){
 	GameBoard board;
-	board.display();
+	board.display();	
 	cout<< endl;
-	board.move('e',3);
-	board.clear_possible_moves();
-	board.display();
-	board.move('d',6);
-	board.display();
+	cout<<"Enter a move: ";
+	while(1){ // just for testing
+		char row;
+		int col;
+		cin>>row;
+		cin>>col;
+		board.move(row,col);
+		cout<<"Enter a move: ";
 
-	//char t; 
-	//cin>> t;
+	}
+	
+
+	char t; 
+	cin>> t;
 	return 0;
 }
