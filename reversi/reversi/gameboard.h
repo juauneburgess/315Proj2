@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -28,7 +30,9 @@ public:
 	bool lookDownLeft(int i, int j);	//checks diagonally down and left of space
 	bool lookDownRight(int i, int j);	//checks diagonally down and right of space
 	void skip_turn();
-	
+	void flipColor(int row, int column);
+	vector<int> getMoves();
+
 	char undoboard[8][8];
 	void copyBoard(char srcBoard[8][8], char destBoard[8][8]);
 	void undo(); // can only undo 1 level

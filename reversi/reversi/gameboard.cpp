@@ -1,3 +1,5 @@
+#pragma once
+
 #include "gameboard.h"
 
 
@@ -41,6 +43,11 @@ GameBoard& GameBoard :: getCurrBoard(){
 	return tempBoard;
 }
 
+vector<int> GameBoard :: getMoves()
+{
+		return moves;
+}
+
 void GameBoard :: display(){
 	cout<<"  _ _ _ _ _ _ _ _ \n";
 	for(int i=0; i<8 ; i++){
@@ -53,6 +60,7 @@ void GameBoard :: display(){
 		cout<<endl;
 	}
 	cout<<"  a b c d e f g h\n";
+	display_valid_moves();
 	cout<<"Next turn: "<< curColor <<endl;
 }
 bool GameBoard :: move(int row, int column){
@@ -304,8 +312,8 @@ bool GameBoard :: lookUp(int i, int j)
 		else if (board[i][j]=='_')		//if line is all opposing players 
 		{								//followed by a '_' display possible				
 			board[i][j] = '*';			//move
-			moves.push_back(i-1);
-			moves.push_back(j-1);
+			moves.push_back(j);
+			moves.push_back(i);
 			return true;
 		}
 	}
@@ -329,8 +337,8 @@ bool GameBoard :: lookDown(int i, int j)
 		else if (board[i][j]=='_')
 		{
 			board[i][j] = '*';
-			moves.push_back(i);
 			moves.push_back(j);
+			moves.push_back(i);
 			return true;
 		}
 	}
@@ -354,8 +362,8 @@ bool GameBoard :: lookLeft(int i, int j)
 		else if (board[i][j]=='_')
 		{
 			board[i][j] = '*';
-			moves.push_back(i);
 			moves.push_back(j);
+			moves.push_back(i);
 			return true;
 		}
 	}
@@ -379,8 +387,8 @@ bool GameBoard :: lookRight(int i, int j)
 		else if (board[i][j]=='_')
 		{
 			board[i][j] = '*';
-			moves.push_back(i);
 			moves.push_back(j);
+			moves.push_back(i);
 			return true;
 		}
 	}
@@ -408,8 +416,8 @@ bool GameBoard :: lookUpLeft(int i, int j)
 				else if (board[i][j]=='_')
 				{
 					board[i][j] = '*';
-					moves.push_back(i);
 					moves.push_back(j);
+					moves.push_back(i);
 					return true;
 				}
 			}
@@ -439,8 +447,8 @@ bool GameBoard :: lookUpRight(int i, int j)
 				else if (board[i][j]=='_')
 				{
 					board[i][j] = '*';
-					moves.push_back(i);
 					moves.push_back(j);
+					moves.push_back(i);
 					return true;
 				}
 			}
@@ -470,8 +478,8 @@ bool GameBoard :: lookDownLeft(int i, int j)
 				else if (board[i][j]=='_')
 				{
 					board[i][j] = '*';
-					moves.push_back(i);
 					moves.push_back(j);
+					moves.push_back(i);
 					return true;
 				}
 			}
@@ -500,8 +508,8 @@ bool GameBoard :: lookDownRight(int i, int j)
 				else if (board[i][j]=='_')
 				{
 					board[i][j] = '*';
-					moves.push_back(i);
 					moves.push_back(j);
+					moves.push_back(i);
 					return true;
 				}
 			}
@@ -537,6 +545,7 @@ bool GameBoard :: display_valid_moves(){
 		cout << moves[k] << " " << moves[k+1] << ", \n";
 	}
 	moves.clear();
+	clear_possible_moves();
 	return valid;
 }
 
@@ -545,7 +554,7 @@ bool GameBoard :: display_valid_moves(){
  *player tries to make a move to a space that is not marked
  *by a '*' the move is determined illegal*/
 bool GameBoard :: valid_move(int column, int row){
-	if(board[row][column] == '*')
+	if(board[column][row] == '*')
 		return true;
 	else{
 		cout << "Illegal move, try again.\n";
