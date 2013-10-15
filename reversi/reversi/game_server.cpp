@@ -85,6 +85,7 @@ void* handleConnection(int *socket_fd){
 	bool condition = false;
 	bool player_skip = false;
 	int count = 0;
+	int undo_count = 0;
 	vector<int> possible_moves;
 	vector<int> move;
 	string playerColor;
@@ -99,6 +100,7 @@ void* handleConnection(int *socket_fd){
 		string word;
 		if(!board.skip_turn()){
 			player_skip = true;
+			word = "i1";
 		}
 		else{
 			request = slave.cread();
@@ -129,6 +131,25 @@ void* handleConnection(int *socket_fd){
 			else
 				display = true;
 			slave.cwrite("OK \n");
+		}
+		else if(word == "UNDO"){
+			if(undo_count < 10 && board.undo_size() >1 && playerColor!="BLACK"){
+				board.undo();
+				undo_count++;
+			}
+			else if(undo_count < 10 && board.undo_size() >2 && playerColor=="BLACK"){
+				board.undo();
+				undo_count++;
+			}
+			else if(board.undo_size() <=1 && playerColor!="BLACK"){
+				slave.cwrite("Not enough previous game states	\n");
+			}
+			else if(board.undo_size() <=2 && playerColor=="BLACK"){
+				slave.cwrite("Not enough previous game states	\n");
+			}
+			else{
+				slave.cwrite("You are out of Undo's \n");
+			}
 		}
 		else if(word.size() == 2 && condition){
 			char c = word[1];
@@ -213,6 +234,7 @@ void* handleConnection(int *socket_fd){
 			condition = true;
 			count = 0;
 			if(playerColor == "BLACK"){
+				
 				possible_moves = board.getMoves();
 				move = ai.MakeMove(possible_moves);
 				board.move(move[1], move[0]);
@@ -247,7 +269,6 @@ void* handleConnection(int *socket_fd){
 			slave.cwrite(output[i]);
 		}
 		if(board.game_over()){
-			cout<<"check";
 			vector<string> winner_statement;
 			winner_statement = board.winner();
 			for(int i = 0; i < winner_statement.size() ; i++)
@@ -259,5 +280,8 @@ void* handleConnection(int *socket_fd){
 }
 
 int main(){
-	GameServer channel(5001, &handleConnection);
+	int port_no = 0;
+	cout<<"Port Number for Server:: ";
+	cin>> port_no;
+	GameServer channel(port_no, &handleConnection);
 }

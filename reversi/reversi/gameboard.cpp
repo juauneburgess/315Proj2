@@ -225,12 +225,10 @@ void GameBoard:: copyBoard(char srcBoard[8][8], char destBoard[8][8])
 
 void GameBoard :: saveCurrBoard(){
 
-	char** tempBoard = new char*;
-
+	char** tempBoard = new char*[8];
 	for(int i=0; i< 8; i++){
 		tempBoard[i] = new char[8];
 	}
-	
 	for(int i=0; i<8; i++)
 	{
 		for(int j=0; j<8; j++)
@@ -238,7 +236,6 @@ void GameBoard :: saveCurrBoard(){
 			tempBoard[i][j] = board[i][j];
 		}
 	}
-
 	undoboards.push(tempBoard);	
 
 	/*cout<<"======UNDO BOARD ====\n";
@@ -264,6 +261,8 @@ void GameBoard :: saveCurrBoard(){
 
 void GameBoard :: undo(){	
 	
+	undoboards.pop();
+	
 	for(int i=0; i<8; i++)
 	{
 		for(int j=0; j<8; j++)
@@ -274,9 +273,14 @@ void GameBoard :: undo(){
 
 	undoboards.pop();
 
-	if(curColor=='@') curColor='O';
-	else curColor='@';
-	display();
+	/*if(curColor=='@') curColor='O';
+	else curColor='@';*/
+	
+
+}
+
+int GameBoard::undo_size(){
+	return undoboards.size();
 }
 
 /*This function checks if any moves are available

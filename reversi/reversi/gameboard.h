@@ -41,6 +41,7 @@ public:
 	
 	void saveCurrBoard();
 	void undo();
+	int undo_size();
 	GameBoard& getCurrBoard();
 	vector<string> winner();
 
