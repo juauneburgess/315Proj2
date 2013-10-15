@@ -319,13 +319,13 @@ void GameBoard :: clear_possible_moves()
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookUp(int i, int j)
 {
-	if(board[i-1][j]==curColor||board[i-1][j]=='_'||board[i-1][j]=='*')
+	if(i==0||board[i-1][j]==curColor||board[i-1][j]=='_'||board[i-1][j]=='*')
 	{									//if space directly adjacent is the 
 		return false;						//current player, a blank space or
 	}									//already a possible move, exit
 	for(i-=1; i >= 1; i--)				
 	{									//if current player is found in this	
-		if(board[i][j]==curColor)		//line, exit
+		if(board[i][j]==curColor||board[i][j]=='*'||i==-1)		//line, exit
 		{
 			return false;
 		}
@@ -343,13 +343,13 @@ bool GameBoard :: lookUp(int i, int j)
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookDown(int i, int j)
 {
-	if(board[i+1][j]==curColor||board[i+1][j]=='_'||board[i+1][j]=='*')
+	if(i==7||board[i+1][j]==curColor||board[i+1][j]=='_'||board[i+1][j]=='*')
 	{
 		return false;
 	}
 	for(i+=1; i <= 7; i++)
 	{
-		if(board[i][j]==curColor)
+		if(board[i][j]==curColor||board[i][j]=='*'||i==8)
 		{
 			return false;
 		}
@@ -367,13 +367,13 @@ bool GameBoard :: lookDown(int i, int j)
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookLeft(int i, int j)
 {
-	if(board[i][j-1]==curColor||board[i][j-1]=='_'||board[i][j-1]=='*')
+	if(j==0||board[i][j-1]==curColor||board[i][j-1]=='_'||board[i][j-1]=='*')
 	{
 		return false;
 	}
 	for(j-=1; j >= 1; j--)
 	{
-		if(board[i][j]==curColor)
+		if(board[i][j]==curColor||board[i][j]=='*'||j==-1)
 		{
 			return false;
 		}
@@ -391,13 +391,13 @@ bool GameBoard :: lookLeft(int i, int j)
  *space until it finds the current player or '_'*/
 bool GameBoard :: lookRight(int i, int j)
 {
-	if(board[i][j+1]==curColor||board[i][j+1]=='_'||board[i][j+1]=='*')
+	if(j==7||board[i][j+1]==curColor||board[i][j+1]=='_'||board[i][j+1]=='*')
 	{
 		return false;
 	}
-	for(j+=1; j <= 7; j++)
+	for(j+=1; j <= 8; j++)
 	{
-		if(board[i][j]==curColor)
+		if(board[i][j]==curColor||board[i][j]=='*'||j==8)
 		{
 			return false;
 		}
@@ -415,17 +415,19 @@ bool GameBoard :: lookRight(int i, int j)
  *of current space until it finds the current player or '_'*/
 bool GameBoard :: lookUpLeft(int i, int j)
 {
-	if(board[i-1][j-1]==curColor||board[i-1][j-1]=='_'||board[i-1][j-1]=='*')
+	int tempi = i;
+	int tempj = j;
+	if(i==0||j==0||board[i-1][j-1]==curColor||board[i-1][j-1]=='_'||board[i-1][j-1]=='*')
 	{
 		return false;
 	}
-	for(i -= 1; i >= 1; i--)
+	for(j -= 1; j >= -1; j--)
 	{
-		for(j -= 1; j >= 1; j--)
+		for(i -= 1; i >= -1; i--)
 		{
-			if((i-=1) && (j-=1))
-			{
-				if(board[i][j]==curColor)
+			if((i == tempi-1) && (j == tempj-1))
+			{	
+				if(board[i][j]==curColor||board[i][j]=='*'||i==-1||j==-1)
 				{
 					return false;
 				}
@@ -436,8 +438,11 @@ bool GameBoard :: lookUpLeft(int i, int j)
 					moves.push_back(i);
 					return true;
 				}
+				tempi = i;
+				tempj = j;
 			}
 		}
+		i = tempi;
 	}
 }
 
@@ -445,17 +450,19 @@ bool GameBoard :: lookUpLeft(int i, int j)
  *of current space until it finds the current player or '_'*/
 bool GameBoard :: lookUpRight(int i, int j)
 {
-	if(board[i-1][j+1]==curColor||board[i-1][j+1]=='_'||board[i-1][j+1]=='*')
+	int tempi = i;
+	int tempj = j;
+	if(i==0||j==7||board[i-1][j+1]==curColor||board[i-1][j+1]=='_'||board[i-1][j+1]=='*')
 	{
 		return false;
 	}
-	for(i -= 1; i >= 1; i--)
+	for(j += 1; j <= 8; j++)
 	{
-		for(j += 1; j <= 7; j++)
+		for(i -= 1; i >= -1; i--)
 		{
-			if((i-=1) && (j+=1))
+			if((i == tempi-1) && (j == tempj+1))
 			{
-				if(board[i][j]==curColor)
+				if(board[i][j]==curColor||board[i][j]=='*'||i==-1||j==8)
 				{
 					return false;
 				}
@@ -466,8 +473,11 @@ bool GameBoard :: lookUpRight(int i, int j)
 					moves.push_back(i);
 					return true;
 				}
+				tempi = i;
+				tempj = j;
 			}
 		}
+		i = tempi;
 	}
 }
 
@@ -475,17 +485,19 @@ bool GameBoard :: lookUpRight(int i, int j)
  *of current space until it finds the current player or '_'*/
 bool GameBoard :: lookDownLeft(int i, int j)
 {
-	if(board[i+1][j-1]==curColor||board[i+1][j-1]=='_'||board[i+1][j-1]=='*')
+	int tempi = i;
+	int tempj = j;
+	if(i==7||j==0||board[i+1][j-1]==curColor||board[i+1][j-1]=='_'||board[i+1][j-1]=='*'||((j==1)||(i==7)))
 	{
 		return false;
 	}
-	for(i += 1; i <= 7; i++)
+	for(j -= 1; j >= -1; j--)
 	{
-		for(j -= 1; j >= 1; j--)
+		for(i += 1; i <= 8; i++)
 		{
-			if((i+=1) && (j-=1))
+			if((i == tempi+1) && (j == tempj-1))
 			{
-				if(board[i][j]==curColor)
+				if(board[i][j]==curColor||board[i][j]=='*'||i==8||j==-1)
 				{
 					return false;
 				}
@@ -496,8 +508,11 @@ bool GameBoard :: lookDownLeft(int i, int j)
 					moves.push_back(i);
 					return true;
 				}
+				tempi = i;
+				tempj = j;
 			}
 		}
+		i = tempi;
 	}
 }
 
@@ -505,17 +520,19 @@ bool GameBoard :: lookDownLeft(int i, int j)
  *of current space until it finds the current player or '_'*/
 bool GameBoard :: lookDownRight(int i, int j)
 {
-	if(board[i+1][j+1]==curColor||board[i+1][j+1]=='_'||board[i+1][j+1]=='*')
+	int tempi = i;
+	int tempj = j;
+	if(i==7||j==7||board[i+1][j+1]==curColor||board[i+1][j+1]=='_'||board[i+1][j+1]=='*'||((j==7)||(i==7)))
 	{
 		return false;
 	}
-	for(i += 1; i <= 7; i++)
+	for(j += 1; j <= 8; j++)
 	{
-		for(j += 1; j <= 7; j++)
+		for(i += 1; i <= 8; i++)
 		{
-			if((i+=1) && (j+=1))
+			if((i == tempi+1) && (j == tempj+1))
 			{
-				if(board[i][j]==curColor)
+				if(board[i][j]==curColor||board[i][j]=='*'||i==8||j==8)
 				{
 					return false;
 				}
@@ -526,8 +543,11 @@ bool GameBoard :: lookDownRight(int i, int j)
 					moves.push_back(i);
 					return true;
 				}
+				tempi = i;
+				tempj = j;
 			}
 		}
+		i = tempi;
 	}
 }
 
