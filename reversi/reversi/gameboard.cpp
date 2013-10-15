@@ -15,19 +15,7 @@ GameBoard :: GameBoard(){
 	board[4][4] = 'O';
 
 	curColor='O';
-
-	//copyBoard(board, undoboard);
-
-	//GameBoard tempboard = *this;
-	//undoBoards.push(&tempboard);
-
-	//undoBoards.push(this);
-
-	//undoboards.board.push(&this);
-
-	//undoboards.board.push(getCurrBoard());
-	//undoboards.push(getCurrBoard().board);
-	
+	saveCurrBoard();
 }
 
 GameBoard& GameBoard :: getCurrBoard(){
@@ -78,33 +66,16 @@ vector<string> GameBoard :: display(){//*********
 }
 
 bool GameBoard :: move(int row, int column){
-	//if(move is valid)
-	copyBoard(board, undoboard);
+	saveCurrBoard();
+	//copyBoard(board, undoboard);
 	if(curColor == 'O'){
 		board[row][column] = 'O';
 		flipColor(row, column);
 		curColor = '@';
-
-		//undoBoards.push(this);
-		//GameBoard tempboard = *this;
-		//undoBoards.push(&tempboard);
-
-		//undoboards.board.push(getCurrBoard());
-
-		//copyBoard(board, undoboard);
-
 	}else{
 		board[row][column] = '@';
 		flipColor(row, column);
-		curColor = 'O';
-
-		//undoBoards.push(this);
-		//GameBoard tempboard = *this;
-		//undoBoards.push(&tempboard);
-
-		//undoboards.board.push(getCurrBoard());
-
-		//copyBoard(board, undoboard);
+		curColor = 'O';		
 	}
 	moves.clear();
 	clear_possible_moves();	
@@ -252,30 +223,57 @@ void GameBoard:: copyBoard(char srcBoard[8][8], char destBoard[8][8])
 	}
 }
 
-void GameBoard :: undo(){
-	
-	////*this = *undoBoards.top();
-	//GameBoard lastBoard = undoboards.board.top();
-	//
-	//
-	//for(int i=0; i<8; i++){
-	//	for(int j=0; j<8; j++){
-	//		board[i][j] = lastBoard.board[i][j];
-	//	}
-	//}
-	//curColor = lastBoard.curColor;		
-	//undoboards.board.pop();
-	////undoBoards.pop();
+void GameBoard :: saveCurrBoard(){
 
-	/*for(int i=0; i<8; i++){
-		for(int j=0; j<8; j++){
-			board[i][j] = undoBoards.top()->board[i][j];
+	char** tempBoard = new char*;
+
+	for(int i=0; i< 8; i++){
+		tempBoard[i] = new char[8];
+	}
+	
+	for(int i=0; i<8; i++)
+	{
+		for(int j=0; j<8; j++)
+		{
+			tempBoard[i][j] = board[i][j];
 		}
 	}
-	curColor = undoBoards.top()->curColor;
-	undoBoards.pop();*/
 
-	copyBoard(undoboard, board);
+	undoboards.push(tempBoard);	
+
+	/*cout<<"======UNDO BOARD ====\n";
+	cout<<"  _ _ _ _ _ _ _ _ \n";
+	for(int i=0; i<8 ; i++){
+		cout<<i+1;
+		for (int j=0; j<8; j++){
+			if(j==7){
+				cout<<'|'<<undoboards.top()[i][j]<<'|';
+			}else cout<<'|'<<undoboards.top()[i][j];
+		}
+		cout<<endl;
+	}
+	cout<<"  a b c d e f g h\n";*/
+
+	/*for(int i = 0; i < 8; i++) {
+		delete [] tempBoard[i];
+	}
+	
+	delete [] tempBoard;*/
+	
+}
+
+void GameBoard :: undo(){	
+	
+	for(int i=0; i<8; i++)
+	{
+		for(int j=0; j<8; j++)
+		{
+			board[i][j] = undoboards.top()[i][j];
+		}
+	}
+
+	undoboards.pop();
+
 	if(curColor=='@') curColor='O';
 	else curColor='@';
 	display();

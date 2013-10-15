@@ -36,11 +36,10 @@ public:
 	void flipColor(int row, int column);
 	vector<int> getMoves();
 
-	//char undoboard[8][8];
+	char undoboard[8][8];
 	void copyBoard(char srcBoard[8][8], char destBoard[8][8]);
+	void undo(); // can only undo 1 level
 	
-	void saveCurrBoard();
-	void undo();
 	GameBoard& getCurrBoard();
 	vector<string> winner();
 
