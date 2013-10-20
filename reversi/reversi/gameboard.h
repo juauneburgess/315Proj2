@@ -8,6 +8,12 @@
 #include <string>
 
 using namespace std;
+
+struct Move{ 
+	int row;
+	int col;
+};
+
 class GameBoard{
 
 public:
@@ -44,5 +50,16 @@ public:
 	int undo_size();
 	GameBoard& getCurrBoard();
 	vector<string> winner();
+	
+	//===helper functions for AI===
+	int countBlack();
+	int countWhite();
+	int countPossibleMove();
+	bool isCorner(int row, int col);
+	double evaluateMove(int row, int col); // return the score of a move
+	double evaluateBoard(int row, int col);
+	vector<Move> getValidMoves();
+	//=============================
+	
 
 };

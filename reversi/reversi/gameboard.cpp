@@ -66,20 +66,30 @@ vector<string> GameBoard :: display(){//*********
 }
 
 bool GameBoard :: move(int row, int column){
-	saveCurrBoard();
+	
+	saveCurrBoard();// for undo
+	//display_valid_moves();
+	if(valid_move(row,column)){
+		if(curColor == 'O'){
+			board[row][column] = 'O';
+			flipColor(row, column);
+			curColor = '@';
+			//display();
+		}else{
+			board[row][column] = '@';
+			flipColor(row, column);
+			curColor = 'O';
+
+			//display();
+		}
+		clear_possible_moves();
+		display_valid_moves();
+		return true;
+	} else
+		return false;
 	//copyBoard(board, undoboard);
-	if(curColor == 'O'){
-		board[row][column] = 'O';
-		flipColor(row, column);
-		curColor = '@';
-	}else{
-		board[row][column] = '@';
-		flipColor(row, column);
-		curColor = 'O';		
-	}
-	moves.clear();
-	clear_possible_moves();	
-	return true;
+	
+	
 }
 
 bool GameBoard :: move(char _column, int _row){
@@ -559,7 +569,7 @@ bool GameBoard :: lookDownRight(int i, int j)
  *space occupied by the current player and determines
  *each space examined as a valid move or not*/
 bool GameBoard :: display_valid_moves(){
-	bool up,down,left,right,upleft,upright,downleft,downright,valid;
+	bool up,down,left,right,upleft,upright,downleft,downright,valid = false;
 	valid = false;
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){			
@@ -691,4 +701,105 @@ vector<string> GameBoard :: winner(){
 	}else ss<<"DRAW!\n";
 	output.push_back(ss.str());
 	return output;
+}
+
+int GameBoard :: countBlack(){
+	int count = 0;
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			if(board[i][j]=='@')	
+			{
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+int GameBoard :: countWhite(){
+	int count = 0;
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			if(board[i][j]=='O')	
+			{
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+int GameBoard :: countPossibleMove(){
+	int count = 0;
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			if(board[i][j]=='*')	
+			{
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+
+bool GameBoard :: isCorner(int row, int col){
+	if(row == 0 && col == 0 || row == 0 && col == 7 || row == 7 && col == 7 || row == 7 && col == 0){
+		return true;
+	}else return false;
+}
+double GameBoard :: evaluateMove(int row, int col){
+	double score = 0;
+
+	
+	move(row,col); //perform move
+	display_valid_moves();
+
+	if (curColor == 'O'){
+		score = score + countBlack()/100;
+	}else
+	{
+		score = score + countWhite()/100;
+	}
+	
+	score = score + countPossibleMove();
+
+	if(isCorner(row,col)){
+		score = score + 100;
+	}
+
+	clear_possible_moves();
+	undo();	// undo move
+
+	return score;
+	
+}
+
+vector<Move> GameBoard :: getValidMoves(){
+	vector<Move> validmoves;
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			if(board[i][j]=='*')	//find all '*' and replace with '_'
+			{
+				//board[i][j] = '_';
+				Move m;
+				m.row = i;
+				m.col = j;
+				validmoves.push_back(m);
+			}
+		}
+	}
+
+	return validmoves;
 }
