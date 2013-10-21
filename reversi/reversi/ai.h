@@ -24,13 +24,17 @@ class AI{
 private:
 	
 	int difficulty;
+	char ai_color;
 	
 public:
 
 	AI();
 	
+	void set_difficulty(int diff){difficulty = diff;};
+	void set_ai_color(char color){ai_color = color;};
 	vector<int> MakeMove(vector<int> possible_moves);
 	//Bestmove chooseMove(GameBoard, bool player, int level);
+	Bestmove aiMove(GameBoard);
 	Bestmove chooseMove(GameBoard, char player, int level);
 	Bestmove move(GameBoard);
 

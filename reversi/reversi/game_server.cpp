@@ -115,6 +115,7 @@ void* handleConnection(int *socket_fd){
 			playerColor = "WHITE";
 			playerChar = 'O';
 			aiChar = '@';
+			ai.set_ai_color(aiChar);
 			slave.cwrite("OK \n");
 		}
 		if(word == "BLACK" && !condition){
@@ -122,6 +123,7 @@ void* handleConnection(int *socket_fd){
 			playerColor = "BLACK";
 			playerChar = '@';
 			aiChar = 'O';
+			ai.set_ai_color(aiChar);
 			slave.cwrite("OK \n");
 		}
 		else if(word == "HUMAN-AI"&& !condition){
@@ -130,6 +132,15 @@ void* handleConnection(int *socket_fd){
 		}
 		else if(word == "EASY" || word == "MEDIUM" || word == "HARD" && !condition){
 			count++;
+			if(word == "EASY"){
+				ai.set_difficulty(1);
+			}
+			else if(word == "MEDIUM"){
+				ai.set_difficulty(3);
+			}
+			else if(word == "HARD"){
+				ai.set_difficulty(5);
+			}
 			slave.cwrite("OK \n");
 		}
 		else if(word == "DISPLAY"){
@@ -173,7 +184,7 @@ void* handleConnection(int *socket_fd){
 					
 				}
 				else{
-					ai_move = ai.chooseMove(board, aiChar, 1);
+					ai_move = ai.aiMove(board);
 					//board.move(move[1], move[0]);
 					board.move(ai_move.move.row, ai_move.move.col);
 					char col;
@@ -205,20 +216,12 @@ void* handleConnection(int *socket_fd){
 			else{
 				board.move(word[0], row);
 				slave.cwrite("OK \n");
-				//possible_moves = board.getMoves();
-				
-				/*output = board.display();
-				for(int i = 0; i < output.size() ; i++)
-				slave.cwrite(output[i]);*/
-				
-				cout << board.countPossibleMove();
-				
 				if(board.countPossibleMove()==0){
 					slave.cwrite("AI has no moves, it will be your turn now ");
 					board.skip_turn();
 				}
 				else{
-					ai_move = ai.chooseMove(board, aiChar, 1);
+					ai_move = ai.aiMove(board);
 					//board.move(move[1], move[0]);
 					board.move(ai_move.move.row, ai_move.move.col);
 					char col;
@@ -256,7 +259,7 @@ void* handleConnection(int *socket_fd){
 			if(playerColor == "BLACK"){
 				
 				//possible_moves = board.getMoves();
-				ai_move = ai.chooseMove(board, aiChar, 1);
+				ai_move = ai.aiMove(board);
 				//board.move(move[1], move[0]);
 				board.move(ai_move.move.row, ai_move.move.col);
 				char col;
