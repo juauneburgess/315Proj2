@@ -69,9 +69,17 @@ vector<int> AI :: MakeMove(vector<int> possible_moves){
 Bestmove AI :: chooseMove(GameBoard currBoard, char player, int level){
 	Bestmove mybest; // my best move
 	Bestmove reply;	// opponent's best move
-	if(level == 0 || currBoard.game_over()){ // if level == 0 or board is full
+	if(level == 0){ //|| currBoard.game_over()){ if level == 0 or board is full
 		mybest.score = currBoard.evaluateMove(mybest.move.row,mybest.move.col);
 		return mybest; // return a best with score, no move
+	}
+	if(currBoard.getValidMoves().size() == 0 && player == '@'){
+		mybest.score = 9998;
+		return mybest;
+	}
+	if(currBoard.getValidMoves().size() == 0 && player == 'O'){
+		mybest.score = -9998;
+		return mybest;
 	}
 
 	if(player == '@'){
@@ -121,18 +129,16 @@ Bestmove AI :: chooseMove(GameBoard currBoard, char player, int level){
 
 Bestmove AI :: move(GameBoard currBoard){
 	Bestmove mybest;
+	cout<<"\n";
 	mybest.score = -9999;
-	if(currBoard.getValidMoves().size() == 0){
-		currBoard.skip_turn();
-	}else{
-		for(int i=0; i< currBoard.getValidMoves().size(); i++){
-			Move move;
-			move = currBoard.getValidMoves()[i];
-			double score = currBoard.evaluateMove(move.row,move.col);
-			if(score > mybest.score){
-				mybest.move = move;
-				mybest.score = score;
-			}
+	for(int i=0; i< currBoard.getValidMoves().size(); i++){
+		Move move;
+		move = currBoard.getValidMoves()[i];
+		cout << move.col << move.row << "\n";
+		double score = currBoard.evaluateMove(move.row,move.col);
+		if(score > mybest.score){
+			mybest.move = move;
+			mybest.score = score;
 		}
 	}
 

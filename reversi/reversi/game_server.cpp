@@ -12,7 +12,7 @@
 
 #include "game_server.h"
 #include "gameboard.h"
-#include "ai_engine.h"
+#include "ai.h"
 
 void GameServer::error(string s){
 	cout<<s<<"\n";
@@ -80,6 +80,7 @@ int GameServer::cwrite(string _msg) {
 
 void* handleConnection(int *socket_fd){
 	GameServer slave(*socket_fd);
+	Bestmove ai_move;
 	bool check = true;
 	bool display = false;
 	bool condition = false;
@@ -89,11 +90,13 @@ void* handleConnection(int *socket_fd){
 	vector<int> possible_moves;
 	vector<int> move;
 	string playerColor;
+	char playerChar;
+	char aiChar;
 	string request;
 	char str [5];
-	string ai_move = "";
+	string ai_move_output = "";
 	GameBoard board;
-	AIEngine ai;
+	AI ai;
 	vector<string> output;
 	slave.cwrite("\nWELCOME \n");
 	while(check){
@@ -110,11 +113,15 @@ void* handleConnection(int *socket_fd){
 		if(word == "WHITE" && !condition){
 			count++;
 			playerColor = "WHITE";
+			playerChar = 'O';
+			aiChar = '@';
 			slave.cwrite("OK \n");
 		}
 		if(word == "BLACK" && !condition){
 			count++;
 			playerColor = "BLACK";
+			playerChar = '@';
+			aiChar = 'O';
 			slave.cwrite("OK \n");
 		}
 		else if(word == "HUMAN-AI"&& !condition){
@@ -135,9 +142,11 @@ void* handleConnection(int *socket_fd){
 		else if(word == "UNDO"){
 			if(undo_count < 10 && board.undo_size() >1 && playerColor!="BLACK"){
 				board.undo();
+				board.undo();
 				undo_count++;
 			}
 			else if(undo_count < 10 && board.undo_size() >2 && playerColor=="BLACK"){
+				board.undo();
 				board.undo();
 				undo_count++;
 			}
@@ -158,72 +167,83 @@ void* handleConnection(int *socket_fd){
 				slave.cwrite("ILLEGAL");
 			else if(player_skip){
 				slave.cwrite("You have no moves, it will be the AI's turn now ");
-				possible_moves = board.getMoves();
-				if(possible_moves.size()==0){
+				//possible_moves = board.getMoves();
+				if(board.countPossibleMove()==0){
 					slave.cwrite("AI has no moves, the game will end");
 					
 				}
 				else{
-					move = ai.MakeMove(possible_moves);
-					board.move(move[1], move[0]);
+					ai_move = ai.chooseMove(board, aiChar, 1);
+					//board.move(move[1], move[0]);
+					board.move(ai_move.move.row, ai_move.move.col);
 					char col;
-					if(move[0] == 0)
+					if(ai_move.move.col== 0)
 						col = 'a';
-					else if(move[0] == 1)
+					else if(ai_move.move.col == 1)
 						col = 'b';
-					else if(move[0] == 2)
+					else if(ai_move.move.col == 2)
 						col = 'c';
-					else if(move[0] == 3)
+					else if(ai_move.move.col == 3)
 						col = 'd';
-					else if(move[0] == 4)
+					else if(ai_move.move.col == 4)
 						col = 'e';
-					else if(move[0] == 5)
+					else if(ai_move.move.col == 5)
 						col = 'f';
-					else if(move[0] == 6)
+					else if(ai_move.move.col == 6)
 						col = 'g';
-					else if(move[0] == 7)
+					else if(ai_move.move.col == 7)
 						col = 'h';
-					ai_move+= col;
-					sprintf(str, "%d" ,move[1]+1);
-					ai_move+= str;
-					slave.cwrite(ai_move);
-					ai_move = "";
+					ai_move_output+= col;
+					int num = ai_move.move.row+1;
+					sprintf(str, "%d" , num);
+					ai_move_output+= str;
+					slave.cwrite(ai_move_output);
+					ai_move_output = "";
 				}
 				player_skip = false;
 			}	
 			else{
 				board.move(word[0], row);
 				slave.cwrite("OK \n");
-				possible_moves = board.getMoves();
-				if(possible_moves.size()==0){
+				//possible_moves = board.getMoves();
+				
+				/*output = board.display();
+				for(int i = 0; i < output.size() ; i++)
+				slave.cwrite(output[i]);*/
+				
+				cout << board.countPossibleMove();
+				
+				if(board.countPossibleMove()==0){
 					slave.cwrite("AI has no moves, it will be your turn now ");
 					board.skip_turn();
 				}
 				else{
-					move = ai.MakeMove(possible_moves);
-					board.move(move[1], move[0]);
+					ai_move = ai.chooseMove(board, aiChar, 1);
+					//board.move(move[1], move[0]);
+					board.move(ai_move.move.row, ai_move.move.col);
 					char col;
-					if(move[0] == 0)
+					if(ai_move.move.col== 0)
 						col = 'a';
-					else if(move[0] == 1)
+					else if(ai_move.move.col == 1)
 						col = 'b';
-					else if(move[0] == 2)
+					else if(ai_move.move.col == 2)
 						col = 'c';
-					else if(move[0] == 3)
+					else if(ai_move.move.col == 3)
 						col = 'd';
-					else if(move[0] == 4)
+					else if(ai_move.move.col == 4)
 						col = 'e';
-					else if(move[0] == 5)
+					else if(ai_move.move.col == 5)
 						col = 'f';
-					else if(move[0] == 6)
+					else if(ai_move.move.col == 6)
 						col = 'g';
-					else if(move[0] == 7)
+					else if(ai_move.move.col == 7)
 						col = 'h';
-					ai_move+= col;
-					sprintf(str, "%d" ,move[1]+1);
-					ai_move+= str;
-					slave.cwrite(ai_move);
-					ai_move = "";
+					ai_move_output+= col;
+					int num = ai_move.move.row+1;
+					sprintf(str, "%d" , num);
+					ai_move_output+= str;
+					slave.cwrite(ai_move_output);
+					ai_move_output = "";
 				}	
 			}
 		}
@@ -235,32 +255,33 @@ void* handleConnection(int *socket_fd){
 			count = 0;
 			if(playerColor == "BLACK"){
 				
-				possible_moves = board.getMoves();
-				move = ai.MakeMove(possible_moves);
-				board.move(move[1], move[0]);
+				//possible_moves = board.getMoves();
+				ai_move = ai.chooseMove(board, aiChar, 1);
+				//board.move(move[1], move[0]);
+				board.move(ai_move.move.row, ai_move.move.col);
 				char col;
-				if(move[0] == 0)
+				if(ai_move.move.col== 0)
 					col = 'a';
-				else if(move[0] == 1)
+				else if(ai_move.move.col == 1)
 					col = 'b';
-				else if(move[0] == 2)
+				else if(ai_move.move.col == 2)
 					col = 'c';
-				else if(move[0] == 3)
+				else if(ai_move.move.col == 3)
 					col = 'd';
-				else if(move[0] == 4)
+				else if(ai_move.move.col == 4)
 					col = 'e';
-				else if(move[0] == 5)
+				else if(ai_move.move.col == 5)
 					col = 'f';
-				else if(move[0] == 6)
+				else if(ai_move.move.col == 6)
 					col = 'g';
-				else if(move[0] == 7)
+				else if(ai_move.move.col == 7)
 					col = 'h';
-				ai_move+= col;
-				int num = move[1]+1;
+				ai_move_output+= col;
+				int num = ai_move.move.row+1;
 				sprintf(str, "%d" , num);
-				ai_move+= str;
-				slave.cwrite(ai_move);
-				ai_move = "";
+				ai_move_output+= str;
+				slave.cwrite(ai_move_output);
+				ai_move_output = "";
 			}
 		}
 		if(display){

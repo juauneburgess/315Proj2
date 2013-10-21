@@ -68,32 +68,30 @@ vector<string> GameBoard :: display(){//*********
 bool GameBoard :: move(int row, int column){
 	
 	saveCurrBoard();// for undo
-	//display_valid_moves();
-	if(valid_move(row,column)){
-		if(curColor == 'O'){
+	display_valid_moves();
+	if(curColor == 'O'){
 			board[row][column] = 'O';
 			flipColor(row, column);
 			curColor = '@';
 			//display();
-		}else{
-			board[row][column] = '@';
-			flipColor(row, column);
-			curColor = 'O';
+	}else{
+		board[row][column] = '@';
+		flipColor(row, column);
+		curColor = 'O';
 
-			//display();
-		}
-		clear_possible_moves();
-		display_valid_moves();
-		return true;
-	} else
-		return false;
+		//display();
+	}
+	moves.clear();
+	clear_possible_moves();
+	//display_valid_moves();
+	return true;
 	//copyBoard(board, undoboard);
 	
 	
 }
 
 bool GameBoard :: move(char _column, int _row){
-	display_valid_moves();
+	//display_valid_moves();
 	int row = _row - 1;
 	int col;
 	if(_column == 'a')
@@ -271,7 +269,7 @@ void GameBoard :: saveCurrBoard(){
 
 void GameBoard :: undo(){	
 	
-	undoboards.pop();
+	//undoboards.pop();
 	
 	for(int i=0; i<8; i++)
 	{
@@ -283,8 +281,8 @@ void GameBoard :: undo(){
 
 	undoboards.pop();
 
-	/*if(curColor=='@') curColor='O';
-	else curColor='@';*/
+	if(curColor=='@') curColor='O';
+	else curColor='@';
 	
 
 }
@@ -337,7 +335,7 @@ bool GameBoard :: lookUp(int i, int j)
 	{									//if space directly adjacent is the 
 		return false;						//current player, a blank space or
 	}									//already a possible move, exit
-	for(i-=1; i >= 1; i--)				
+	for(i-=1; i >= 0; i--)				
 	{									//if current player is found in this	
 		if(board[i][j]==curColor||board[i][j]=='*'||i==-1)		//line, exit
 		{
@@ -385,7 +383,7 @@ bool GameBoard :: lookLeft(int i, int j)
 	{
 		return false;
 	}
-	for(j-=1; j >= 1; j--)
+	for(j-=1; j >= 0; j--)
 	{
 		if(board[i][j]==curColor||board[i][j]=='*'||j==-1)
 		{
@@ -569,7 +567,7 @@ bool GameBoard :: lookDownRight(int i, int j)
  *space occupied by the current player and determines
  *each space examined as a valid move or not*/
 bool GameBoard :: display_valid_moves(){
-	bool up,down,left,right,upleft,upright,downleft,downright,valid = false;
+	bool up,down,left,right,upleft,upright,downleft,downright,valid;
 	valid = false;
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){			
@@ -736,6 +734,7 @@ int GameBoard :: countWhite(){
 }
 
 int GameBoard :: countPossibleMove(){
+	display_valid_moves();
 	int count = 0;
 	for(int i = 0; i < 8; i++)
 	{
@@ -747,7 +746,7 @@ int GameBoard :: countPossibleMove(){
 			}
 		}
 	}
-
+	clear_possible_moves();
 	return count;
 }
 
@@ -786,6 +785,8 @@ double GameBoard :: evaluateMove(int row, int col){
 
 vector<Move> GameBoard :: getValidMoves(){
 	vector<Move> validmoves;
+	clear_possible_moves();
+	display_valid_moves();
 	for(int i = 0; i < 8; i++)
 	{
 		for(int j = 0; j < 8; j++)
@@ -800,6 +801,6 @@ vector<Move> GameBoard :: getValidMoves(){
 			}
 		}
 	}
-
+	clear_possible_moves();
 	return validmoves;
 }
