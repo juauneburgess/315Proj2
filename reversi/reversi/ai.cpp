@@ -140,7 +140,6 @@ Bestmove AI :: move(GameBoard currBoard){
 	for(int i=0; i< currBoard.getValidMoves().size(); i++){
 		Move move;
 		move = currBoard.getValidMoves()[i];
-		cout << move.col << move.row << "\n";
 		double score = currBoard.evaluateMove(move.row,move.col);
 		if(score > mybest.score){
 			mybest.move = move;
