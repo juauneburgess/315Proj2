@@ -1,0 +1,17 @@
+Development Log
+
+Week 2:
+  Huy - Board, Update_board, undo
+  JuAune - Check move, display possible moves, termination condition
+  Josh - Server code
+
+completed:
+  Huy - Board
+  JuAune - check move, displays possible moves, termination condition
+as of 12:14 Saturday, October 12
+
+Week 3:
+  Figure out depth for easy, medium and hard AI
+  Test if hard is harder than medium and medium is harder than easy
+  If time allows (unlikely) try alpha-beta pruning
+updated 2:05 Sunday, October 20 
