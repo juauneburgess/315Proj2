@@ -752,7 +752,7 @@ int GameBoard :: countPossibleMove(){
 
 
 bool GameBoard :: isCorner(int row, int col){
-	if(row == 0 && col == 0 || row == 0 && col == 7 || row == 7 && col == 7 || row == 7 && col == 0){
+	if((row == 0 && col == 0) || (row == 0 && col == 7) || (row == 7 && col == 7) || (row == 7 && col == 0)){
 		return true;
 	}else return false;
 }

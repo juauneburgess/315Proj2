@@ -115,7 +115,7 @@ void* handleConnection(int *socket_fd){
 			playerColor = "WHITE";
 			playerChar = 'O';
 			aiChar = '@';
-			ai.set_ai_color(aiChar);
+			ai.set_ai_color(aiChar, playerChar);
 			slave.cwrite("OK \n");
 		}
 		if(word == "BLACK" && !condition){
@@ -123,7 +123,7 @@ void* handleConnection(int *socket_fd){
 			playerColor = "BLACK";
 			playerChar = '@';
 			aiChar = 'O';
-			ai.set_ai_color(aiChar);
+			ai.set_ai_color(aiChar, playerChar);
 			slave.cwrite("OK \n");
 		}
 		else if(word == "HUMAN-AI"&& !condition){
@@ -136,10 +136,10 @@ void* handleConnection(int *socket_fd){
 				ai.set_difficulty(1);
 			}
 			else if(word == "MEDIUM"){
-				ai.set_difficulty(3);
+				ai.set_difficulty(2);
 			}
 			else if(word == "HARD"){
-				ai.set_difficulty(5);
+				ai.set_difficulty(4);
 			}
 			slave.cwrite("OK \n");
 		}
