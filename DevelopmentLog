@@ -1,13 +1,14 @@
 Development Log
 
 Week 2:
-  Huy - Board, Update_board, undo
+  Huy - Board setup, display, move , Update_board (flip color after a move), Undo
   JuAune - Check move, display possible moves, termination condition
   Josh - Server code
 
 completed:
-  Huy - Board
+  Huy - Board setup, display, move , Update board (flip color after a move), Undo
   JuAune - check move, displays possible moves, termination condition
+  Josh - server code
 as of 12:14 Saturday, October 12
 
 Week 3:
@@ -15,3 +16,10 @@ Week 3:
   Test if hard is harder than medium and medium is harder than easy
   If time allows (unlikely) try alpha-beta pruning
 updated 2:05 Sunday, October 20 
+
+completed: 
+	Huy - MinMax Algorithm, evaluate function.
+	Josh - integrate AI to server code.
+	Juaune - 
+	
+updated 7:55 Sunday, October 21
