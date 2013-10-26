@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h> 
-#include <winsock2.h>
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>

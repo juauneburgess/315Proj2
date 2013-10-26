@@ -5,7 +5,7 @@ using namespace std;
 
 int main(){
 	GameBoard board;
-	board.display();
+    board.display();
 	vector<int> valmoves;	
 	cout<< endl;
 	cout<<"Enter a move: ";
