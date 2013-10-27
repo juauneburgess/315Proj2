@@ -975,150 +975,510 @@ void MainWindow::on_btn37_clicked()
 
 void MainWindow::on_btn40_clicked()
 {
-
+    if(board.getColor(4,0) == '_' && board.curColor == '@'){
+        board.move(4,0);
+        ui->btn40->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(4,0) == '_' && board.curColor == 'O'){
+        board.move(4,0);
+        ui->btn40->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn41_clicked()
 {
-
+    if(board.getColor(4,1) == '_' && board.curColor == '@'){
+        board.move(4,1);
+        ui->btn41->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(4,1) == '_' && board.curColor == 'O'){
+        board.move(4,1);
+        ui->btn41->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn42_clicked()
 {
-
+    if(board.getColor(4,2) == '_' && board.curColor == '@'){
+        board.move(4,2);
+        ui->btn42->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(4,2) == '_' && board.curColor == 'O'){
+        board.move(4,2);
+        ui->btn42->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn45_clicked()
 {
-
+    if(board.getColor(4,5) == '_' && board.curColor == '@'){
+        board.move(4,5);
+        ui->btn45->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(4,5) == '_' && board.curColor == 'O'){
+        board.move(4,5);
+        ui->btn45->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn46_clicked()
 {
-
+    if(board.getColor(4,6) == '_' && board.curColor == '@'){
+        board.move(4,6);
+        ui->btn46->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(4,6) == '_' && board.curColor == 'O'){
+        board.move(4,6);
+        ui->btn46->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn47_clicked()
 {
-
+    if(board.getColor(4,7) == '_' && board.curColor == '@'){
+        board.move(4,7);
+        ui->btn47->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(4,7) == '_' && board.curColor == 'O'){
+        board.move(4,7);
+        ui->btn47->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn50_clicked()
 {
-
+    if(board.getColor(5,0) == '_' && board.curColor == '@'){
+        board.move(5,0);
+        ui->btn50->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,0) == '_' && board.curColor == 'O'){
+        board.move(5,0);
+        ui->btn50->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn51_clicked()
 {
-
+    if(board.getColor(5,1) == '_' && board.curColor == '@'){
+        board.move(5,1);
+        ui->btn51->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,1) == '_' && board.curColor == 'O'){
+        board.move(5,1);
+        ui->btn51->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn52_clicked()
 {
-
+    if(board.getColor(5,2) == '_' && board.curColor == '@'){
+        board.move(5,2);
+        ui->btn52->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,2) == '_' && board.curColor == 'O'){
+        board.move(5,2);
+        ui->btn52->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn53_clicked()
 {
-
+    if(board.getColor(5,3) == '_' && board.curColor == '@'){
+        board.move(5,3);
+        ui->btn53->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,3) == '_' && board.curColor == 'O'){
+        board.move(5,3);
+        ui->btn53->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn54_clicked()
 {
-
+    if(board.getColor(5,4) == '_' && board.curColor == '@'){
+        board.move(5,4);
+        ui->btn54->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,4) == '_' && board.curColor == 'O'){
+        board.move(5,4);
+        ui->btn54->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn55_clicked()
 {
-
+    if(board.getColor(5,5) == '_' && board.curColor == '@'){
+        board.move(5,5);
+        ui->btn55->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,5) == '_' && board.curColor == 'O'){
+        board.move(5,5);
+        ui->btn55->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn56_clicked()
 {
-
+    if(board.getColor(5,6) == '_' && board.curColor == '@'){
+        board.move(5,6);
+        ui->btn56->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,6) == '_' && board.curColor == 'O'){
+        board.move(5,6);
+        ui->btn56->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn57_clicked()
 {
-
+    if(board.getColor(5,7) == '_' && board.curColor == '@'){
+        board.move(5,7);
+        ui->btn57->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(5,7) == '_' && board.curColor == 'O'){
+        board.move(5,7);
+        ui->btn57->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn60_clicked()
 {
-
+    if(board.getColor(6,0) == '_' && board.curColor == '@'){
+        board.move(6,0);
+        ui->btn60->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,0) == '_' && board.curColor == 'O'){
+        board.move(6,0);
+        ui->btn60->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn61_clicked()
 {
-
+    if(board.getColor(6,1) == '_' && board.curColor == '@'){
+        board.move(6,1);
+        ui->btn61->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,1) == '_' && board.curColor == 'O'){
+        board.move(6,1);
+        ui->btn61->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn62_clicked()
 {
-
+    if(board.getColor(6,2) == '_' && board.curColor == '@'){
+        board.move(6,2);
+        ui->btn62->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,2) == '_' && board.curColor == 'O'){
+        board.move(6,2);
+        ui->btn62->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn63_clicked()
 {
-
+    if(board.getColor(6,3) == '_' && board.curColor == '@'){
+        board.move(6,3);
+        ui->btn63->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,3) == '_' && board.curColor == 'O'){
+        board.move(6,3);
+        ui->btn63->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn64_clicked()
 {
-
+    if(board.getColor(6,4) == '_' && board.curColor == '@'){
+        board.move(6,4);
+        ui->btn64->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,4) == '_' && board.curColor == 'O'){
+        board.move(6,4);
+        ui->btn64->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn65_clicked()
 {
-
+    if(board.getColor(6,5) == '_' && board.curColor == '@'){
+        board.move(6,5);
+        ui->btn65->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,5) == '_' && board.curColor == 'O'){
+        board.move(6,5);
+        ui->btn65->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn66_clicked()
 {
-
+    if(board.getColor(6,6) == '_' && board.curColor == '@'){
+        board.move(6,6);
+        ui->btn66->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,6) == '_' && board.curColor == 'O'){
+        board.move(6,6);
+        ui->btn66->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn67_clicked()
 {
-
+    if(board.getColor(6,7) == '_' && board.curColor == '@'){
+        board.move(6,7);
+        ui->btn67->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(6,7) == '_' && board.curColor == 'O'){
+        board.move(6,7);
+        ui->btn67->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn70_clicked()
 {
-
+    if(board.getColor(7,0) == '_' && board.curColor == '@'){
+        board.move(7,0);
+        ui->btn70->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,0) == '_' && board.curColor == 'O'){
+        board.move(7,0);
+        ui->btn70->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn71_clicked()
 {
-
+    if(board.getColor(7,1) == '_' && board.curColor == '@'){
+        board.move(7,1);
+        ui->btn71->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,1) == '_' && board.curColor == 'O'){
+        board.move(7,1);
+        ui->btn71->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn72_clicked()
 {
-
+    if(board.getColor(7,2) == '_' && board.curColor == '@'){
+        board.move(7,2);
+        ui->btn72->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,2) == '_' && board.curColor == 'O'){
+        board.move(7,2);
+        ui->btn72->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn73_clicked()
 {
-
+    if(board.getColor(7,3) == '_' && board.curColor == '@'){
+        board.move(7,3);
+        ui->btn73->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,3) == '_' && board.curColor == 'O'){
+        board.move(7,3);
+        ui->btn73->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn74_clicked()
 {
-
+    if(board.getColor(7,4) == '_' && board.curColor == '@'){
+        board.move(7,4);
+        ui->btn74->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,4) == '_' && board.curColor == 'O'){
+        board.move(7,4);
+        ui->btn74->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn75_clicked()
 {
-
+    if(board.getColor(7,5) == '_' && board.curColor == '@'){
+        board.move(7,5);
+        ui->btn75->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,5) == '_' && board.curColor == 'O'){
+        board.move(7,5);
+        ui->btn75->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn76_clicked()
 {
-
+    if(board.getColor(7,6) == '_' && board.curColor == '@'){
+        board.move(7,6);
+        ui->btn76->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,6) == '_' && board.curColor == 'O'){
+        board.move(7,6);
+        ui->btn76->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
 
 void MainWindow::on_btn77_clicked()
 {
-
+    if(board.getColor(7,7) == '_' && board.curColor == '@'){
+        board.move(7,7);
+        ui->btn77->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/black.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }else if(board.getColor(7,7) == '_' && board.curColor == 'O'){
+        board.move(7,7);
+        ui->btn77->setStyleSheet("background-color: transparent;"
+                                 "background:url(:/images/white.png);position: center;padding:5px;"
+                                 "background-repeat: none;"
+                                 "border: none;");
+    }
 }
