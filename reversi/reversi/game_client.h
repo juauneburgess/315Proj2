@@ -21,13 +21,13 @@ public:
 
 	void error(string s);
 	
-	GameServer(const string _server_host_name, const unsigned short _port_no);
+	GameClient(const string _server_host_name, const unsigned short _port_no);
 	//Protocol for server to connect to another server as a client
 	
-	GameServer(const int socket_fd);	
+	GameClient(const int socket_fd);	
 	//Sets file descriptors for reading and writing to the socket
 	
-	~GameServer();
+	~GameClient();
 	// Destructor of local copy of channel
 	
 	string client_read();

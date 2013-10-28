@@ -10,16 +10,14 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
-#include "game_server.h"
-#include "gameboard.h"
-#include "ai.h"
+#include "game_client.h"
 
-void GameServer::error(string s){
+void GameClient::error(string s){
 	cout<<s<<"\n";
 	exit(EXIT_FAILURE);
 }
 
-GameServer::GameServer(const string _server_host_name, const unsigned short _port_no){
+GameClient::GameClient(const string _server_host_name, const unsigned short _port_no){
 	//myside = CLIENT_SIDE;
 	int my_socket;
 	struct sockaddr_in serv_addr;
@@ -38,16 +36,16 @@ GameServer::GameServer(const string _server_host_name, const unsigned short _por
 	client_rfd = my_socket;
 }
 
-GameServer::GameServer(const int socket_fd){
+GameClient::GameClient(const int socket_fd){
 	client_wfd = socket_fd;
 	client_rfd = socket_fd;
 }
 
-GameServer::~GameServer(){
+GameClient::~GameClient(){
 	close(client_rfd);
 }
 
-string GameServer::client_read() {
+string GameClient::client_read() {
   char buf[MAX_MESSAGE];
   if (read(client_rfd, buf, MAX_MESSAGE) < 0) {
     perror(string("Request Channel : Error reading from pipe!").c_str());
@@ -56,7 +54,7 @@ string GameServer::client_read() {
   return s;
 }
 
-int GameServer::client_write(string _msg) {
+int GameClient::client_write(string _msg) {
   if (_msg.length() >= MAX_MESSAGE) {
     cerr << "Message too long for Channel!\n";
     return -1;
