@@ -103,18 +103,43 @@ Bestmove AI :: chooseMove(GameBoard currBoard, char player, int level){
 	return mybest;
 	}
 	if(currBoard.getValidMoves().size() == 0 && player == ai_color){
-		mybest.score = 9998;
+		mybest.score = 9999;
+		/*Move move; 
+		move.row = 1;
+		move.col = 1;
+		mybest.move = move;*/
 		return mybest;
 	}
 	if(currBoard.getValidMoves().size() == 0 && player != ai_color){
-		mybest.score = -9998;
+		mybest.score = -9999;
+		/*Move move;
+		move.row = 2;
+		move.col = 2;
+		mybest.move = move;*/
+		return mybest;
+	}
+	
+	if(currBoard.getValidMoves().size() == 1){
+		Move move;
+		move = currBoard.getValidMoves()[0];
+		double score = currBoard.evaluateMove(move.row,move.col);
+		mybest.move = move;
+		mybest.score = score;
 		return mybest;
 	}
 
 	if(player == ai_color){
 		mybest.score = -9999;
+		Move move; 
+		move.row = 1;
+		move.col = 1;
+		mybest.move = move;
 	}else{
 		mybest.score = 9999;
+		Move move;
+		move.row = 2;
+		move.col = 2;
+		mybest.move = move;
 	}
 	if(player == ai_color){// AI's turn
 
