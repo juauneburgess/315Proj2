@@ -453,7 +453,8 @@ bool MainWindow::ai2_hardpressed()
 
 string MainWindow::handle_game_click(string index)
 {
-    qDebug("test");
+    QString ind = index.c_str();
+    qDebug() << ind;
     return index;
 }
 
@@ -464,7 +465,8 @@ string MainWindow::get_click()
 
 string MainWindow::handle_choice_click(string choice)
 {
-    qDebug("choice");
+    QString cho = choice.c_str();
+    qDebug() << cho;
     return choice;
 }
 
