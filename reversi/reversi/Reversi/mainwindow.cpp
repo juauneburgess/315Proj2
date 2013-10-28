@@ -454,12 +454,9 @@ bool MainWindow::ai2_hardpressed()
 string MainWindow::handle_game_click(string index)
 {
     QString ind = index.c_str();
-    qDebug() << ind;
-    return index;
-}
-
-string MainWindow::get_click()
-{
+    clicks.push_back(index);
+    qDebug() << ind << "Vector Size: " << clicks.size();
+    receive_click();
     return index;
 }
 
@@ -467,12 +464,17 @@ string MainWindow::handle_choice_click(string choice)
 {
     QString cho = choice.c_str();
     qDebug() << cho;
+    choices.push_back(choice);
+    receive_choice();
     return choice;
 }
 
-string MainWindow::get_choice()
+void MainWindow::receive_click(vector<string> clicked)
 {
-    return choice;
+    for(int i = 0; i < clicks.size(); i++)
+    {
+        clicked.push_back(clicks[i]);
+    }
 }
 
 //HUYS CODE HERE//

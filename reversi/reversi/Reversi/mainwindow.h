@@ -29,8 +29,11 @@ public:
     string handle_choice_click(string choice);
     string get_click();
     string get_choice();
+    vector<string> clicks;
+    vector<string> choices;
+    void receive_click();
 
-private slots:
+public slots:
     bool whitepressed();
     bool blackpressed();
     bool easypressed();
