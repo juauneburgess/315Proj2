@@ -13,8 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    gameboard.cpp \
+    ai.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    gameboard.h \
+    ai.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    Pics.qrc
