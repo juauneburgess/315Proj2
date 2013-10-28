@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QString>
 #include "gameboard.h"
 #include "ai.h"
 
@@ -20,6 +21,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void connectTcp();
+    void end_game();
+    string choice;
+    string index;
+    string handle_game_click(string index);
+    string handle_choice_click(string choice);
+    string get_click();
+    string get_choice();
 
 private slots:
     bool whitepressed();
@@ -35,7 +44,6 @@ private slots:
     bool ai2_easypressed();
     bool ai2_mediumpressed();
     bool ai2_hardpressed();
-	
 	//HUYS CODE HERE//
 	
 	//void clearBoard();
