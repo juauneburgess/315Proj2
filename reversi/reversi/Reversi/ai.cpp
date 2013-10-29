@@ -132,7 +132,11 @@ Bestmove AI :: chooseMove(GameBoard currBoard, char player, int level){
 		{
 			Move move;
 			move = currBoard.getValidMoves()[i];			
-
+			if(level == 4 && currBoard.isCorner(move.row, move.col)){
+				mybest.move = move;
+				mybest.score = 1000;
+				return mybest;
+			}
 			currBoard.move(move.row, move.col); // perform move
 			reply = chooseMove(currBoard, player_color, level-1);
 			currBoard.undo(); // undo move

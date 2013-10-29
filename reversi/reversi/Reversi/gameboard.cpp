@@ -3,6 +3,7 @@
 
 #include "gameboard.h"
 
+
 GameBoard :: GameBoard(){
     for(int i=0; i<8 ; i++){
         for (int j=0; j<8; j++){
@@ -86,6 +87,7 @@ bool GameBoard :: move(int row, int column){
     //display_valid_moves();
     return true;
     //copyBoard(board, undoboard);
+
 
 }
 

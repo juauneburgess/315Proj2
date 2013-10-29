@@ -6,10 +6,14 @@
 #include <QtGui>
 #include <QTcpSocket>
 #include <QObject>
+#include <unistd.h>
 
 GameBoard board;
 AI ai;
 QTcpSocket * _pSocket;
+string color;
+string difficulty;
+string game_type_option;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -467,15 +471,19 @@ string MainWindow::handle_choice_click(string choice)
     choices.push_back(choice);
     //receive_choice();
     if(choice == "WHITE")
-        board.curColor = 'O';
+        color = "WHITE ";
     if(choice == "BLACK")
-        board.curColor = '@';
+        color = "BLACK ";
     if(choice == "EASY")
-        ai.set_difficulty(1);
+        difficulty = "EASY ";
     if(choice == "MEDIUM")
-        ai.set_difficulty(2);
+        difficulty = "MEDIUM ";
     if(choice == "HARD")
-        ai.set_difficulty(4);
+        difficulty = "HARD ";
+    if(choice == "HUMAN-AI")
+        game_type_option = "HUMAN-AI ";
+    if(choice == "AI-AI")
+        game_type_option = "AI-AI ";
     return choice;
 }
 
@@ -491,6 +499,39 @@ string MainWindow::handle_choice_click(string choice)
 void MainWindow::on_btnStartGame_clicked()
 {
     //connectTcp();
+    bool check = true;
+    int count = 0;
+    QByteArray test;
+    qint64 max = 8;
+    test = _pSocket->read(max);
+    qDebug() << test;
+    string test2(test.constData(), test.length());
+    //if(test2 == "WELCOME")
+    //    qDebug() << "SUCCESS";
+    QByteArray temp_choice(game_type_option.c_str());
+    _pSocket->write(temp_choice);
+    test = _pSocket->read(max);
+    qDebug() << temp_choice;
+    QByteArray temp_color(color.c_str());
+    _pSocket->write(temp_color);
+    qDebug() << temp_color;
+    QByteArray temp_difficulty(difficulty.c_str());
+    _pSocket->write(temp_difficulty);
+    qDebug() << temp_difficulty;
+    /*while(check){
+        max = 255;
+        test = _pSocket->read(max);
+        qDebug() << test;
+        string test2(test.constData(), test.length());
+       if(test2 == "/nOK"&& count == 100){
+            QByteArray temp_color(color.c_str());
+            _pSocket->write(temp_color);
+            check = false;
+        }
+        count++;
+
+
+    }*/
     /*QMessageBox MsgBox;
     MsgBox.setText("Hello World!");
     MsgBox.exec();

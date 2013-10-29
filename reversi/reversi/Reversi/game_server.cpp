@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <QTcpServer>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h> 
@@ -20,11 +19,8 @@ void GameServer::error(string s){
 	exit(EXIT_FAILURE);
 }
 
-GameServer::GameServer(quint16 _port_no, void * (*connection_handler) (int *)){
-   /* string str = "127.0.0.1";
-    QString qstr = str.c_str();
-    server->listen(qstr, _port_no);*/
-    int socket_fd, new_fd;
+GameServer::GameServer(const unsigned short _port_no, void * (*connection_handler) (int *)){
+	int socket_fd, new_fd;
 	struct sockaddr_in serv_addr;
 	int _backlog = 5;
 	
@@ -50,13 +46,13 @@ GameServer::GameServer(quint16 _port_no, void * (*connection_handler) (int *)){
 			close(new_fd);
 			exit(0);
 		}	
-    }
+	}
 }
 
 
 GameServer::GameServer(const string _server_host_name, const unsigned short _port_no){
 	//myside = CLIENT_SIDE;
-    int my_socket;
+	int my_socket;
 	struct sockaddr_in serv_addr;
     struct hostent *server;
 	
@@ -70,7 +66,7 @@ GameServer::GameServer(const string _server_host_name, const unsigned short _por
 	if ((connect(my_socket,(struct sockaddr *) &serv_addr,sizeof(serv_addr))) < 0) 
         error("ERROR connecting");
 	client_wfd = my_socket;
-    client_rfd = my_socket;
+	client_rfd = my_socket;
 }
 
 GameServer::GameServer(const int socket_fd){
@@ -79,7 +75,7 @@ GameServer::GameServer(const int socket_fd){
 }
 
 GameServer::~GameServer(){
-    close(rfd);
+	close(rfd);
 }
 
 string GameServer::cread() {
@@ -122,7 +118,7 @@ int GameServer::client_write(string _msg) {
   }
 }
 
-void* handleConnection(int *socket_fd){
+void* handleConnection(int *socket_fd){ //actual gameplay function
 	GameServer slave(*socket_fd);
 	Bestmove ai_move;
 	bool check = true;
@@ -146,19 +142,21 @@ void* handleConnection(int *socket_fd){
 	GameBoard board;
 	AI ai;
 	vector<string> output;
-	slave.cwrite("\nWELCOME \n");
+	slave.cwrite("WELCOME");
 	while(check){
 		string word;
-		if(!board.skip_turn()){
+		if(!board.skip_turn()){ //used to see if it will skip the users turn
 			player_skip = true;
 			word = "i1";
 			cout << "check";
 		}
-		else{
+		else{ //otherwise read from the socket
 			request = slave.cread();
+			cout<<request<<"\n";
 			istringstream iss(request);
 			iss >> word;
-			if(word == "AI-AI"){
+			cout << word;
+			if(word == "AI-AI"){ //store information for ai-ai connection
 				iss >> ip;
 				iss >> port_no;
 				iss >> thisDifficulty;
@@ -183,6 +181,7 @@ void* handleConnection(int *socket_fd){
 		}
 		else if(word == "HUMAN-AI"&& !condition){
 			count++;
+			cout << "OK";
 			slave.cwrite("OK \n");
 		}
 		else if(word == "AI-AI"){
@@ -191,9 +190,7 @@ void* handleConnection(int *socket_fd){
 			bool ai_display = true;
 			while(check){
 				string word;
-				cerr << "before read";
 				request = client.client_read();
-				cerr<<request;
 				slave.cwrite(request);
 				istringstream iss(request);
 				iss >> word;
@@ -256,11 +253,7 @@ void* handleConnection(int *socket_fd){
 					char c = word[1];
 					int row = c - 48;
 					board.move(word[0], row);
-					cout << "check";
 					if(!board.game_over() && board.countPossibleMove()!=0 ){
-						output = board.display();
-						for(int i = 0; i < output.size() ; i++)
-							slave.cwrite(output[i]);
 						ai_move = ai.aiMove(board);
 						board.move(ai_move.move.row, ai_move.move.col);
 						char col;
@@ -294,10 +287,7 @@ void* handleConnection(int *socket_fd){
 				}
 				
 				if(board.countPossibleMove()==0){
-					cerr << "idk";
 					board.skip_turn();
-					/*request = client.client_read();
-					cout<<request;*/
 				}
 				
 				if(ai_display && okCount > 2 ){
