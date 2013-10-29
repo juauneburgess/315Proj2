@@ -19,7 +19,13 @@ updated 2:05 Sunday, October 20
 
 completed: 
 	Huy - MinMax Algorithm, evaluate function.
-	Josh - integrate AI to server code.
+	Josh - integrate AI to server code, fixed min-max algorithm.
 	Juaune - Fixed display possible moves, investigated regions of board for various heuristic values.
 	
 updated 2:21 pm Tuesday, October 22
+
+Week 4:
+  Huy - Board setup, move, flip color
+  Josh & JuAune - frantically try to get it to work with the server and play a game. Documents
+  
+ updated 11:26 pm Monday, October 28
