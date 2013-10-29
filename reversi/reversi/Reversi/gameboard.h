@@ -18,7 +18,7 @@ struct Move{
     int col;
 };
 
-class GameBoard{
+class GameBoard {
 
 public:
     char board[8][8];
@@ -30,6 +30,7 @@ public:
     bool move(char column, int row);
     bool move(int row, int column);
     bool valid_move(char _column, int row);				//returns 1 if move is legal
+    bool valid_move(int row, int col);
     bool display_valid_moves();		//displays all legal moves
     bool game_over();				//checks termination conditions
     int count_tiles();				//counts white and black tiles and returns total tiles used
@@ -67,7 +68,13 @@ public:
     //=======GUI client=========
     char getColor(int row, int col);
     void setColor(int row, int col, char _color);
+/*
+public slots:
+     void updateBoard(){}
 
+ signals:
+     void valueChanged(int newValue);
+*/
 
 };
 

@@ -2,13 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPushButton>
-#include <QString>
 #include "gameboard.h"
 #include "ai.h"
+//extern QPoint point[5][6]; // declaration
+//extern GameBoard board;
+//extern AI ai;
 
-extern GameBoard board;
-extern AI ai;
+//GameBoard board;
+//AI ai;
 
 namespace Ui {
 class MainWindow;
@@ -17,40 +18,18 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+    //GameBoard board;
+    //AI ai;
 public:
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void connectTcp();
-    void end_game();
-    string choice;
-    string index;
-    string handle_game_click(string index);
-    string handle_choice_click(string choice);
-    string get_click();
-    string get_choice();
-    vector<string> clicks;
-    vector<string> choices;
-    void receive_click();
+	void connectTcp();
 
-public slots:
-    bool whitepressed();
-    bool blackpressed();
-    bool easypressed();
-    bool mediumpressed();
-    bool hardpressed();
-    bool human_aipressed();
-    bool ai_aipressed();
-    bool ai1_easypressed();
-    bool ai1_mediumpressed();
-    bool ai1_hardpressed();
-    bool ai2_easypressed();
-    bool ai2_mediumpressed();
-    bool ai2_hardpressed();
-	//HUYS CODE HERE//
-	
-	//void clearBoard();
-    void on_btnStartGame_clicked();
+private slots:
+    //void clearBoard();
+    void updateBoard();
+    void on_btnNewGame_clicked();
     void mousePressEvent(QMouseEvent *event);
 
     void on_btn22_clicked();
@@ -173,22 +152,18 @@ public slots:
 
     void on_btn77_clicked();
 
+    void on_btn33_clicked();
+
+    void on_btn34_clicked();
+
+    void on_btn43_clicked();
+
+    void on_btn44_clicked();
+
+    void on_btnUndo_clicked();
+
 private:
     Ui::MainWindow *ui;
-    QPushButton *white_play;
-    QPushButton *black_play;
-    QPushButton *easy;
-    QPushButton *medium;
-    QPushButton *hard;
-    QPushButton *human_ai;
-    QPushButton *ai_ai;
-    QPushButton *ai1_easy;
-    QPushButton *ai1_medium;
-    QPushButton *ai1_hard;
-    QPushButton *ai2_easy;
-    QPushButton *ai2_medium;
-    QPushButton *ai2_hard;
-    QPushButton *StartGame;
 };
 
 #endif // MAINWINDOW_H

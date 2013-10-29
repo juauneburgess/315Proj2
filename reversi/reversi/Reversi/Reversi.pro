@@ -1,15 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2013-10-25T22:26:23
+# Project created by QtCreator 2013-10-24T00:06:45
 #
 #-------------------------------------------------
 
 QT       += core gui
-QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Reversi
+TARGET = reversi
 TEMPLATE = app
 
 
@@ -24,4 +23,5 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES += Pics.qrc
+RESOURCES += \
+    myResources.qrc

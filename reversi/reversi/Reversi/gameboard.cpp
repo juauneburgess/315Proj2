@@ -11,12 +11,13 @@ GameBoard :: GameBoard(){
         }
     }
     board[3][3] = 'O';
-    board[3][4] = '@';
-    board[4][3] = '@';
+    board[3][4] = '@';   
     board[4][4] = 'O';
+    board[4][3] = '@';
 
     curColor='O';
-    saveCurrBoard();
+    display_valid_moves();
+    //saveCurrBoard();
 }
 
 GameBoard& GameBoard :: getCurrBoard(){
@@ -69,7 +70,8 @@ vector<string> GameBoard :: display(){//*********
 bool GameBoard :: move(int row, int column){
 
     saveCurrBoard();// for undo
-    display_valid_moves();
+    clear_possible_moves();
+    //display_valid_moves(); // this needs for telnet
     if(curColor == 'O'){
             board[row][column] = 'O';
             flipColor(row, column);
@@ -83,8 +85,8 @@ bool GameBoard :: move(int row, int column){
         //display();
     }
     moves.clear();
-    clear_possible_moves();
-    //display_valid_moves();
+    //clear_possible_moves(); // this needs for telnet
+    display_valid_moves();
     return true;
     //copyBoard(board, undoboard);
 
@@ -271,19 +273,24 @@ void GameBoard :: saveCurrBoard(){
 void GameBoard :: undo(){
 
     //undoboards.pop();
-
-    for(int i=0; i<8; i++)
-    {
-        for(int j=0; j<8; j++)
+    if(undoboards.size()==0){
+        cout<<"There's no more step to undo!";
+    }else{
+        for(int i=0; i<8; i++)
         {
-            board[i][j] = undoboards.top()[i][j];
+            for(int j=0; j<8; j++)
+            {
+                board[i][j] = undoboards.top()[i][j];
+            }
         }
+
+        undoboards.pop();
+
+        if(curColor=='@') curColor='O';
+        else curColor='@';
     }
 
-    undoboards.pop();
 
-    if(curColor=='@') curColor='O';
-    else curColor='@';
 
 
 }
@@ -621,6 +628,18 @@ bool GameBoard :: valid_move(char _column, int _row){
         col = 7;
     cout<<board[col][row];
     if(board[row][col] == '*'){
+        return true;
+    }
+    else{
+        moves.clear();
+        clear_possible_moves();
+        return false;
+    }
+}
+bool GameBoard :: valid_move(int row, int col){
+    display_valid_moves();
+    if(board[row][col] == '*'){
+        clear_possible_moves();
         return true;
     }
     else{
