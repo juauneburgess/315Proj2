@@ -10,14 +10,12 @@ int main(int argc, char *argv[])
     MainWindow w;
     vector<string> clicked;
     vector<string> chosen;
-    w.connectTcp();
     w.showMaximized();
+    w.connectTcp();
     string ret;
     string bret;
 
     qDebug() << "Size: " << w.choices.size();
-
-    w.receive_click(clicked);
 
     qDebug() << "size: " << clicked.size();
     /*for(int i = 0; i < w.choices.size(); i++)

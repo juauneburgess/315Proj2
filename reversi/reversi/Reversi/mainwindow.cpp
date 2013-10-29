@@ -456,7 +456,7 @@ string MainWindow::handle_game_click(string index)
     QString ind = index.c_str();
     clicks.push_back(index);
     qDebug() << ind << "Vector Size: " << clicks.size();
-    receive_click();
+    //receive_click();
     return index;
 }
 
@@ -465,21 +465,32 @@ string MainWindow::handle_choice_click(string choice)
     QString cho = choice.c_str();
     qDebug() << cho;
     choices.push_back(choice);
-    receive_choice();
+    //receive_choice();
+    if(choice == "WHITE")
+        board.curColor = 'O';
+    if(choice == "BLACK")
+        board.curColor = '@';
+    if(choice == "EASY")
+        ai.set_difficulty(1);
+    if(choice == "MEDIUM")
+        ai.set_difficulty(2);
+    if(choice == "HARD")
+        ai.set_difficulty(4);
     return choice;
 }
 
-void MainWindow::receive_click(vector<string> clicked)
+/*void MainWindow::receive_click(vector<string> clicked)
 {
     for(int i = 0; i < clicks.size(); i++)
     {
         clicked.push_back(clicks[i]);
     }
-}
+}*/
 
 //HUYS CODE HERE//
 void MainWindow::on_btnStartGame_clicked()
 {
+    //connectTcp();
     /*QMessageBox MsgBox;
     MsgBox.setText("Hello World!");
     MsgBox.exec();
@@ -1868,9 +1879,9 @@ void MainWindow::end_game()
 
 void MainWindow::connectTcp(){
     _pSocket = new QTcpSocket(this);
-    connect(_pSocket, SIGNAL(readyRead()), SLOT(readTcpData()));
+    //connect(_pSocket, SIGNAL(readyRead()), SLOT(readTcpData()));
 
-    _pSocket->connectToHost("127.0.0.1", 5000);
+    _pSocket->connectToHost("127.0.0.1", 5555);
     if(_pSocket->waitForConnected()){}
 }
 

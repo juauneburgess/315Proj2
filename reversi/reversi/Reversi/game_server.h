@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <QTcpServer>
 
 
 using namespace std;
@@ -13,6 +14,7 @@ class GameServer{
 
 private:
 	
+    QTcpServer *server;
 	int wfd;
 	int rfd;
 	int client_wfd;
